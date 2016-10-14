@@ -1,0 +1,1 @@
+java -jar target/registration-1.0-SNAPSHOT.jar --spring.config.location=file:/home/faltimiras/Development/Projects/Java/Matxos/Registration/registration.properties,file:/home/faltimiras/Development/Projects/Java/Matxos/Registration/race.properties

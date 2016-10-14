@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=/home/faltimiras/Development/Projects/Java/Matxos/Registration/src/main/lib/apiSha256.jar -DgroupId=es.redsys -DartifactId=redsys -Dversion=1.0 -Dpackaging=jar
