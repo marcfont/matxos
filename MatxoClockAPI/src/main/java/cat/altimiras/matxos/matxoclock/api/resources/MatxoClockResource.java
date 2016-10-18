@@ -29,7 +29,7 @@ public class MatxoClockResource {
     @Value("${validation.key}")
     private String key;
 
-    @PostMapping("/api/{race}/read")
+    @PostMapping("/api/race/{race}/read")
     public String read(@PathVariable("race") String race, Model model, ReadForm read) {
         log.log(Level.INFO, "new read " + read);
         try {

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "reads")
+@Table(name = "time_reads")
 public class Read implements Serializable{
 
     public Read(){}
