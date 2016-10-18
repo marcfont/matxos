@@ -43,9 +43,10 @@ public class TwilioPhoneServiceImpl implements PhoneService {
             String prefixedNum = getPrefixedNum(phoneNumber);
             PhoneNumber phone = twilioClient.getPhoneNumber(prefixedNum, true);
             if (PhoneNumber.Type.MOBILE.equals(phone.getType())) {
+                log.log(Level.INFO, String.format("Phone OK: %s", phoneNumber));
                 return true;
             } else {
-                log.log(Level.FINE, String.format("invalid phone numbrer: %s", phoneNumber));
+                log.log(Level.INFO, String.format("invalid phone numbrer: %s", phoneNumber));
                 return false;
             }
 

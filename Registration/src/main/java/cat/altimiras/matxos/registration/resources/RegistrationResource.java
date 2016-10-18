@@ -105,19 +105,19 @@ public class RegistrationResource extends Resource {
 
             //validate dni/nie
             if (!dniValidatorService.isValid(registration.getDni())) {
-                prepareError(registration, model, bindingResult, new ObjectError("dni", "invalid"));
+                prepareError(registration, model, bindingResult, "dni");
                 return "registration";
             }
 
             //validate feec id
             if (!feecService.isValid(registration.getFeec(), registration.getDni())) {
-                prepareError(registration, model, bindingResult, new ObjectError("feec", "invalid"));
+                prepareError(registration, model, bindingResult, "feec");
                 return "registration";
             }
 
             //validate phone
             if (!phoneService.isValid(registration.getTelf())) {
-                prepareError(registration, model, bindingResult, new ObjectError("telf", "invalid"));
+                prepareError(registration, model, bindingResult, "telf");
                 return "registration";
             }
 
@@ -178,12 +178,12 @@ public class RegistrationResource extends Resource {
         }
     }
 
-    private void prepareError(RegistrationForm registration, Model model, BindingResult bindingResult, ObjectError error) {
+    private void prepareError(RegistrationForm registration, Model model, BindingResult bindingResult, String error) {
         fillModel(model, registration.getRace());
 
         if (error != null) {
-            bindingResult.addError(error);
-            log.log(Level.FINE, error.getObjectName() + " not valid on new registration");
+            bindingResult.rejectValue(error, error);
+            log.log(Level.INFO, error+ " not valid on new registration");
         }
 
         model.addAttribute("registration", registration);
