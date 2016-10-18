@@ -55,8 +55,8 @@ public class PaymentServiceImpl implements PaymentService {
             redsysApi.setParameter("DS_MERCHANT_MERCHANTURL", String.format("http://%s/payment/race/%s/order/%s/payment-callback", domain, race, order.getId()));
             redsysApi.setParameter("DS_MERCHANT_CONSUMERLANGUAGE", "1"); //es_ES
             redsysApi.setParameter("DS_MERCHANT_MERCHANTNAME", "CET");
-            redsysApi.setParameter("DS_MERCHANT_URLOK", String.format("http://%s/payment/race/%s/order/%s/confirmation?status=OK", domain, race, order.getId()));
-            redsysApi.setParameter("DS_MERCHANT_URLKO", String.format("http://%s/payment/race/%s/order/%s/confirmation?status=KO", domain, race, order.getId()));
+            redsysApi.setParameter("DS_MERCHANT_URLOK", String.format("http://%s/registration/race/%s/order/%s/confirmation?status=OK", domain, race, order.getId()));
+            redsysApi.setParameter("DS_MERCHANT_URLKO", String.format("http://%s/registration/race/%s/order/%s/confirmation?status=KO", domain, race, order.getId()));
 
             formRedsys.put(SIGN_VERSION_KEY, "HMAC_SHA256_V1");
             formRedsys.put(PARAMETERS_KEY, redsysApi.createMerchantParameters());
