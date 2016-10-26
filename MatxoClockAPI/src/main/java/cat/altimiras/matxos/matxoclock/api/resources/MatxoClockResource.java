@@ -5,6 +5,7 @@ import cat.altimiras.matxos.matxoclock.api.form.ReadForm;
 import cat.altimiras.matxos.pojo.Read;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,8 +45,7 @@ public class MatxoClockResource {
                 return "ko";
             }
 
-        } catch (ConstraintViolationException e) {
-            //TODO test aquesta es excepcio per repeticio PK
+        } catch (DataIntegrityViolationException e) {
             log.log(Level.INFO, "Double read ignore" + read);
             return "ok";
         } catch (Exception e) {

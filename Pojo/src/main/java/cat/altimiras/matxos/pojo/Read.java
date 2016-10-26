@@ -1,11 +1,13 @@
 package cat.altimiras.matxos.pojo;
 
+import org.springframework.data.domain.Persistable;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "time_reads")
-public class Read implements Serializable{
+public class Read implements Serializable, Persistable{
 
     public Read(){}
 
@@ -38,6 +40,16 @@ public class Read implements Serializable{
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    @Override
+    public Serializable getId() {
+        return readKey;
+    }
+
+    @Override
+    public boolean isNew() {
+        return true; //always is new, so no updates are done
     }
 
     @Embeddable
