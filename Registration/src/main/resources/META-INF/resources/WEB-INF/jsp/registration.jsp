@@ -52,7 +52,7 @@
                 </div>
                 <div class="form-group">
                     <label for="bibname">Nom dorsal</label>
-                    <input type="text" class="form-control" id="bibname" name="bibname" value="${registration.bibname}" placeholder="Nom dorals">
+                    <input type="text" class="form-control" id="bibname" name="bibname" value="${registration.bibname}" placeholder="Nom dorsal">
                     <c:if test="${errors.hasFieldErrors('bibname')}"><span style="color: red;">Nom dorsal inv&agrave;lid</span></c:if>
                 </div>
                 <div class="form-group">

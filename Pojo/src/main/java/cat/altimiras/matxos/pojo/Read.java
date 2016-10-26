@@ -42,7 +42,10 @@ public class Read implements Serializable{
 
     @Embeddable
     @Access(AccessType.FIELD)
-    public class ReadKey implements Serializable {
+    public static class ReadKey implements Serializable {
+
+        public ReadKey() {
+        }
 
         private String race;
 

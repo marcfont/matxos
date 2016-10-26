@@ -1,48 +1,54 @@
 package cat.altimiras.matxos.registration.services;
 
 
-import cat.altimiras.matxos.pojo.Route;
 import cat.altimiras.matxos.pojo.TShirtSize;
+import cat.altimiras.matxos.registration.dao.RegistrationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Configuration
 public class TShirtSizeServiceImpl implements TShirtSizeService {
 
+    private static Logger log = Logger.getLogger(TShirtSizeServiceImpl.class.getName());
+
     @Autowired
     private Environment env;
+
+    @Autowired
+    private RegistrationDAO registrationDAO;
 
     List<TShirtSize> sizes;
 
     @Override
     public List<TShirtSize> getSizeAvailable() {
 
-        if (sizes == null){
+        if (sizes == null) {
             loadSizes();
         }
 
-        //query bd count sizes
-        return sizes.stream().filter(s -> s.getStock() > 0).collect(Collectors.toList());
+        return sizes.stream().filter(s -> s.getStock() > registrationDAO.countBySizeAndPaymentIdNotNull(s.getId())).collect(Collectors.toList());
     }
 
     @Override
     public boolean isAvailable(String size) {
 
-        if (sizes == null){
+        if (sizes == null) {
             loadSizes();
         }
 
-        int current = 0; //read count per size
-
-        return sizes.stream().filter(s-> size.equals(s.getId())).findFirst().get().getStock() < current;
+        long current = registrationDAO.countBySizeAndPaymentIdNotNull(size);
+        log.log(Level.INFO, "There are " + current + " " + size);
+        return sizes.stream().filter(s -> size.equals(s.getId())).findFirst().get().getStock() < current;
     }
 
-    private void loadSizes(){
+    private void loadSizes() {
 
         sizes = new ArrayList<>();
 

@@ -5,17 +5,17 @@ import cat.altimiras.matxos.matxoclock.api.form.ReadForm;
 import cat.altimiras.matxos.pojo.Read;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
 import java.security.MessageDigest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Controller
+@RestController
 public class MatxoClockResource {
 
     private static Logger log = Logger.getLogger(MatxoClockResource.class.getName());
@@ -29,8 +29,11 @@ public class MatxoClockResource {
     @Value("${validation.key}")
     private String key;
 
-    @PostMapping("/api/race/{race}/read")
-    public String read(@PathVariable("race") String race, Model model, ReadForm read) {
+    @RequestMapping(
+            path = "/api/race/{race}/read",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String read(@PathVariable("race") String race, @RequestBody ReadForm read) {
         log.log(Level.INFO, "new read " + read);
         try {
 

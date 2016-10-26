@@ -9,8 +9,10 @@ public interface RegistrationDAO extends JpaRepository<Registration, Long> {
 
     Long countByRace(String race);
 
-    List<Registration> findByRaceAndPaymentDateNotNull(String race);
+    List<Registration> findByRaceAndPaymentIdNotNull(String race);
 
     Registration findByRaceAndPaymentId(String race, String paymentId);
+
+    Long countBySizeAndPaymentIdNotNull(String size);
 
 }

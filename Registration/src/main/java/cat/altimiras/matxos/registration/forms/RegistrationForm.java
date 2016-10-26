@@ -61,8 +61,6 @@ public class RegistrationForm {
     @Size(min=1, max=1)
     private String gender;
 
-    @NotBlank
-    @Size(min=1, max=4)
     private String size;
 
     @Email
