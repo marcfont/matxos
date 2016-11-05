@@ -17,9 +17,9 @@
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <h2>Alguna cosa ha anat malament relizant el pagament:(</h2>
+            <h2>Algo ha anat malament :(</h2>
             <br>
-            <h1>ERROR realizant el pagament</h1>
+            <h1>ERROR realizant la Inscripci&oacute;</h1>
             <br>
             <span>Torna-ho a intentar <a href="/registration/race/${race}/registration">aqu&iacute;</a></span>
         </div>

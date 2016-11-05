@@ -59,7 +59,7 @@ public class RegistrationResource extends Resource {
     @GetMapping("registration/race/{race}/registrations")
     public String registrations(@PathVariable("race") String race, Model model) {
 
-        List<Registration> registrationList = registrationDAO.findByRaceAndPaymentIdNotNull(race);
+        List<Registration> registrationList = registrationDAO.findByRaceAndIsCompleted(race, true);
 
         model.addAttribute("registrations", registrationList);
         fillModel(model, race);

@@ -33,7 +33,7 @@ public class TShirtSizeServiceImpl implements TShirtSizeService {
             loadSizes();
         }
 
-        return sizes.stream().filter(s -> s.getStock() > registrationDAO.countBySizeAndPaymentIdNotNull(s.getId())).collect(Collectors.toList());
+        return sizes.stream().filter(s -> s.getStock() > registrationDAO.countBySizeAndAndIsCompletedIsTrue(s.getId())).collect(Collectors.toList());
     }
 
     @Override
@@ -43,7 +43,7 @@ public class TShirtSizeServiceImpl implements TShirtSizeService {
             loadSizes();
         }
 
-        long current = registrationDAO.countBySizeAndPaymentIdNotNull(size);
+        long current = registrationDAO.countBySizeAndAndIsCompletedIsTrue(size);
         log.log(Level.INFO, "There are " + current + " " + size);
         return sizes.stream().filter(s -> size.equals(s.getId())).findFirst().get().getStock() < current;
     }

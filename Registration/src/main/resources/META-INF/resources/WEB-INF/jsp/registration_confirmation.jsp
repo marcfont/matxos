@@ -22,7 +22,7 @@
 
                 <input type="hidden" name="id" value="${id}">
                 <div class="form-group">
-                    <span>Confirma que les dades que has introduit son correctes. En cas contari torna endarrera i rectifica-les</span>
+                    <span>Confirma que les dades que has introduit son correctes. En cas contari torna enrere i rectifica-les</span>
                 </div>
                 <div class="form-group">
                     <label>Nom:</label>
@@ -37,7 +37,7 @@
                     <span>${registration.surname2}</span>
                 </div>
                 <div class="form-group">
-                    <label>Sexa:</label>
+                    <label>Sexe:</label>
                     <span>${registration.gender}</span>
                 </div>
                 <div class="form-group">

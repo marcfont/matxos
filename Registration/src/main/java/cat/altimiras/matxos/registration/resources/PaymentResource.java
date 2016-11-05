@@ -70,6 +70,13 @@ public class PaymentResource extends Resource {
         try {
             log.log(Level.INFO, "Callback info. sign: " + request.getParameter(PaymentService.SIGN_KEY) + " params: " + request.getParameter(PaymentService.PARAMETERS_KEY));
             boolean isPaid = paymentService.confirmOrderPayment(orderId, request.getParameter(PaymentService.SIGN_KEY), request.getParameter(PaymentService.PARAMETERS_KEY));
+
+            if(isPaid) {
+                Registration registration = registrationDAO.findByRaceAndPaymentId(race, orderId);
+                registration.setIsCompleted(true);
+                registrationDAO.save(registration);
+            }
+
             return "ok";
 
         } catch (Exception e) {

@@ -51,7 +51,9 @@ public class Registration {
 
     private String bib;
 
-    private boolean isHere;
+    private boolean isHere = false;
+
+    private boolean isCompleted = false;
 
     @Column(name = "payment_id")
     private String paymentId;
@@ -234,5 +236,13 @@ public class Registration {
 
     public void setIsHere(boolean isHere) {
         this.isHere = isHere;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setIsCompleted(boolean isCompleted) {
+        this.isCompleted = isCompleted;
     }
 }

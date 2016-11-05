@@ -47,8 +47,8 @@
                 </div>
                 <div class="form-group">
                     <label>Sexe*</label><br>
-                    <label class="checkbox-inline"><input type="checkbox" name="gender" value="H" checked>Home</label>
-                    <label class="checkbox-inline"><input type="checkbox" name="gender" value="D">Dona</label>
+                    <label class="checkbox-inline"><input type="radio" name="gender" value="H" checked>Home</label>
+                    <label class="checkbox-inline"><input type="radio" name="gender" value="D">Dona</label>
                 </div>
                 <div class="form-group">
                     <label for="bibname">Nom dorsal</label>
@@ -62,12 +62,14 @@
                 </div>
                 <div class="form-group">
                     <label for="size">Talla samarreta</label>
+                     <span style="font-size: x-small"> ( ** Ja tenim les samarretes comprades. Nom&eacute;s es poden encarregar talles que encara tenen disponibilitat)</span>
                     <select id="size" name="size" class="form-control">
                         <c:forEach items="${sizes}" var="t">
                             <option value="${t.id}">${t.name}</option>
                         </c:forEach>
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label for="email">Email*</label>
                     <input type="email" class="form-control" id="email" name="email" value="${registration.email}" placeholder="Email">
