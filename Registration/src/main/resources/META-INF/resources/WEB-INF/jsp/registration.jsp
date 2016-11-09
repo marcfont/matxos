@@ -62,7 +62,7 @@
                 </div>
                 <div class="form-group">
                     <label for="size">Talla samarreta</label>
-                     <span style="font-size: x-small"> ( ** Ja tenim les samarretes comprades. Nom&eacute;s es poden encarregar talles que encara tenen disponibilitat)</span>
+                    <span style="font-size: x-small"> ( ** Ja tenim les samarretes comprades. Nom&eacute;s es poden encarregar talles que encara tenen disponibilitat)</span>
                     <select id="size" name="size" class="form-control">
                         <c:forEach items="${sizes}" var="t">
                             <option value="${t.id}">${t.name}</option>
@@ -82,6 +82,7 @@
                 </div>
                 <div class="form-group">
                     <label for="telf">Telf*</label>
+                    <span style="font-size: x-small"> ( ** Faciliteu-nos el m&ograve;bil que portareu el dia de la cursa aix&iacute; cas d'incid&egrave;ncia podrem contactar amb vosaltres)</span>
                     <input type="text" class="form-control" id="telf" name="telf" value="${registration.telf}" placeholder="Telf">
                     <c:if test="${errors.hasFieldErrors('telf')}"><span style="color: red;">Telf inv&agrave;lid</span></c:if>
                 </div>
