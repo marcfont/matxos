@@ -1,4 +1,4 @@
-package cat.altimiras.matxos.registration.services;
+package cat.altimiras.matxos.services;
 
 
 import cat.altimiras.matxos.pojo.Route;

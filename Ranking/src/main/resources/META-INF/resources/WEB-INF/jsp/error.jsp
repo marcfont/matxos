@@ -19,9 +19,9 @@
         <div class="col-md-8 col-md-offset-2">
             <h2>Algo ha anat malament :(</h2>
             <br>
-            <h1>ERROR realizant la Inscripci&oacute;</h1>
+            <h1>Aquesta p&agrave;gina no existeix</h1>
             <br>
-            <span>Torna-ho a intentar <a href="/registration/race/${race}/registration">aqu&iacute;</a></span>
+            <span>Torna-ho a començar <a href="http://www.marxos.cat">aqu&iacute;</a></span>
         </div>
     </div>
 </div>

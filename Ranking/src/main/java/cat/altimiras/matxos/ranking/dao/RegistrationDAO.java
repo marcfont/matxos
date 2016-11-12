@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface RegistrationDAO extends JpaRepository<Registration, Long> {
 
-    List<Registration> findByRaceAndPaymentIdNotNull(String race);
+    List<Registration> findByRaceAndIsCompleted(String race, boolean complete);
+
+    List<Registration> findByRaceAndBib(String race, String bib);
 
 }

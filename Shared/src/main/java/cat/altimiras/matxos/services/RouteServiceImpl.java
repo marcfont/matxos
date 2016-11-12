@@ -1,4 +1,4 @@
-package cat.altimiras.matxos.registration.services;
+package cat.altimiras.matxos.services;
 
 
 import cat.altimiras.matxos.pojo.Route;
@@ -30,6 +30,9 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public Route getRoute(String race, String id) {
+        if(routesRace == null) {
+            loadRoutes();
+        }
         return routesRace.getOrDefault(race, new ArrayList<>()).stream().filter(r -> r.getId().equals(id)).findFirst().get();
     }
 

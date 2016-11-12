@@ -16,7 +16,6 @@ public class Registration {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-
     private String race;
 
     private String route;

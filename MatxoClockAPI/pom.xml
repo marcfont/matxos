@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>cat.altimiras.matxos</groupId>
-            <artifactId>pojo</artifactId>
+            <artifactId>Shared</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

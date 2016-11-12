@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>cat.altimiras.matxos</groupId>
-            <artifactId>pojo</artifactId>
+            <artifactId>Shared</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
@@ -46,6 +46,13 @@
             <artifactId>commons-io</artifactId>
             <version>1.3.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
+        </dependency>
+
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>

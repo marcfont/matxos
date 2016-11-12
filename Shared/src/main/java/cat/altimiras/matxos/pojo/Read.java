@@ -41,6 +41,34 @@ public class Read implements Serializable, Persistable{
     public void setTime(String time) {
         this.time = time;
     }
+/*
+    public String getRace() {
+        return readKey.getRace();
+    }
+
+    public void setRace(String race){
+        this.readKey.setRace(race);
+    }
+
+    public String getBib() {
+        return readKey.getBib();
+    }
+
+    public void setBib(String bib) {
+        this.readKey.setBib(bib);
+    }
+
+    public String getControl() {
+        return this.readKey.getControl();
+    }
+
+    public void setControl(String control) {
+        this.readKey.setControl(control);
+    }
+
+*/
+
+
 
     @Override
     public Serializable getId() {

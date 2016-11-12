@@ -1,4 +1,4 @@
-package cat.altimiras.matxos.registration.services;
+package cat.altimiras.matxos.services;
 
 
 import cat.altimiras.matxos.pojo.Control;
@@ -26,6 +26,14 @@ public class ControlServiceImpl implements ControlService {
             loadControls();
         }
         return controlsRace.get(race);
+    }
+
+    @Override
+    public String getControlName(String race, String id) {
+        if (controlsRace == null) {
+            loadControls();
+        }
+        return controlsRace.get(race).stream().filter(c -> c.getId().equals(id)).findFirst().orElse(new Control()).getName();
     }
 
     private void loadControls() {
