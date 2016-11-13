@@ -9,13 +9,18 @@
 <body>
 
 <div class="container-fluid">
-    <div class="row" style="margin-bottom: 40px; background-color: darkcyan; font-size: xx-large; color: azure;">
+    <div class="row" style="margin-bottom: 40px; background-color: #FF5640; font-size: xx-large; color: azure;">
         <div class="col-md-8 col-md-offset-2" style="padding: 6%;">
             ${controltitle} - ${title}
         </div>
         <div class="pull-right" style="font-size: x-large; padding: 10px;"><a style="color: white" href="/ranking/race/${race}/ranking">Torna Ranking</a></div>
     </div>
-
+    <div class="row">
+        <div class="col-md-1"><a href="/ranking/race/${race}/ranking"><b>GENERAL</b></a></div>
+        <c:forEach items="${controls}" var="c">
+            <div class="col-md-1"><a href="/ranking/race/${race}/control/${c.id}/ranking"><b>${c.name}</b></a></div>
+        </c:forEach>
+    </div>
     <div class="row ">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default ">
@@ -75,7 +80,14 @@
                     <tr>
                         <td>${r.bib}</td>
                         <td><a href="/ranking/race/${race}/bibs/${r.bib}/ranking">${r.name}</a></td>
-                        <td>${r.time}</td>
+                        <c:choose>
+                            <c:when test="${r.control.equals('Sortida')}">
+                                <td>00h 00m 00s</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td>${r.time}</td>
+                            </c:otherwise>
+                        </c:choose>
                         <td>${r.route}</td>
                     </tr>
                 </c:forEach>

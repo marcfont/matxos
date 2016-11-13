@@ -10,7 +10,7 @@
 
 <div class="container-fluid">
     <div class="row" style="margin-bottom: 40px;">
-        <div class="col-md-12" style="background-color: darkcyan; font-size: xx-large; color: azure; padding: 10%;">
+        <div class="col-md-12" style="background-color: #FF5640; font-size: xx-large; color: azure; padding: 10%;">
             ${title}
         </div>
     </div>

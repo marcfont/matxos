@@ -114,5 +114,6 @@ public class RankingResource {
         model.addAttribute("title", env.getProperty(race + ".race.name"));
         model.addAttribute("race", race);
         model.addAttribute("routes", routeService.getRoutes(race));
+        model.addAttribute("controls", controlService.getControls(race));
     }
 }

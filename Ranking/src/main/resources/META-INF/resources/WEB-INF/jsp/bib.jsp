@@ -9,7 +9,7 @@
 <body>
 
 <div class="container-fluid">
-    <div class="row" style="margin-bottom: 40px; background-color: darkcyan; font-size: xx-large; color: azure;">
+    <div class="row" style="margin-bottom: 40px; background-color: #FF5640; font-size: xx-large; color: azure;">
         <div class="col-md-8 col-md-offset-2" style="padding: 6%;">
             ${title}<br>
             Dorsal: ${bib}<br>
@@ -30,7 +30,14 @@
                 <c:forEach items="${rankings}" var="r">
                     <tr>
                         <td>${r.control}</td>
-                        <td>${r.time}</td>
+                        <c:choose>
+                            <c:when test="${r.control.equals('Sortida')}">
+                                <td>00h 00m 00s</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td>${r.time}</td>
+                            </c:otherwise>
+                        </c:choose>
                     </tr>
                 </c:forEach>
             </table>
