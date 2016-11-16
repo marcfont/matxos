@@ -12,8 +12,8 @@
     <div class="row" style="margin-bottom: 40px; background-color: #FF5640; font-size: xx-large; color: azure;">
         <div class="col-md-8 col-md-offset-2" style="padding: 6%;">
             ${title}<br>
-            Dorsal: ${bib}<br>
-            Corredor: ${runner}<br>
+            <b>${runner}</b><br>
+            Dorsal: <b>${bib}</b><br>
             Ruta prevista: ${route}
         </div>
         <div class="pull-right" style="font-size: x-large; padding: 10px;"><a style="color: white" href="/ranking/race/${race}/ranking">Torna Ranking</a></div>

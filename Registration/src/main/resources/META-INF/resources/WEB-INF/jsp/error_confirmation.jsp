@@ -21,7 +21,7 @@
             <br>
             <h1>ERROR realizant el pagament</h1>
             <br>
-            <span>Torna-ho a intentar <a href="/registration/race/${race}/registration">aqu&iacute;</a></span>
+            <span>Torna-ho a intentar <a href="/registration/race/${race}/registration">aqu&iacute;</a> o contacteu amb nosaltres: <a href="mailto:inscripcions@matxos.cat">inscripcions@matxos.cat</a></span>
         </div>
     </div>
 </div>
