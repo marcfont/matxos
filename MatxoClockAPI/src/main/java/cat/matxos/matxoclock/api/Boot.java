@@ -15,10 +15,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "file:matxoclockapi.properties",
         "file:race.properties"
 })
-@ComponentScan(basePackages={"cat.altimiras.matxos"})
+@ComponentScan(basePackages={"cat.matxos"})
 @EnableTransactionManagement
 @EnableJpaRepositories
-@EntityScan("cat.altimiras.matxos*")
+@EntityScan("cat.matxos*")
 public class Boot extends SpringBootServletInitializer {
 
     @Override

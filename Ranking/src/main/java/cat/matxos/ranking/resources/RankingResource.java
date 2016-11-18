@@ -111,10 +111,10 @@ public class RankingResource {
         return "bib";
     }
 
-    @PutMapping("ranking/races/{race}/controls/{control}/bibs/{bib}/push")
-    public String pushRead(@PathVariable("race") String race, @PathVariable("control") String control, @PathVariable("bib") String bib, @RequestParam(value ="time") Long time, Model model){
-
-        return "";
+    //FIXME
+    @GetMapping("test")
+    public String test(){
+        return "test";
     }
 
     private void fillModel(Model model, String race) {
