@@ -9,6 +9,7 @@ import cat.matxos.services.ControlService;
 import cat.matxos.services.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +40,9 @@ public class RankingResource {
 
     @Autowired
     private RunnerService runnerService;
+
+    @Autowired
+    private SimpMessagingTemplate webSocket;
 
     @GetMapping("ranking/race/{race}/ranking")
     public String general(@PathVariable("race") String race,
@@ -111,11 +115,22 @@ public class RankingResource {
         return "bib";
     }
 
+    @PutMapping("ranking/races/{race}/controls/{control}/bibs/{bib}/push")
+    public void pushRead(@PathVariable("race") String race,
+                         @PathVariable("control") String control,
+                         @PathVariable("bib") String bib,
+                         @RequestParam(value = "time", required = false) String time){
+
+        ReadRanking r = rankingService.getReadUI(race,control,bib,time);
+        webSocket.convertAndSend("/topic/ranking", r);
+    }
+
     //FIXME
     @GetMapping("test")
     public String test(){
         return "test";
     }
+
 
     private void fillModel(Model model, String race) {
         model.addAttribute("title", env.getProperty(race + ".race.name"));

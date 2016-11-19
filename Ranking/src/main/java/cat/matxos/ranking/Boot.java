@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 })
 @ComponentScan(basePackages={"cat.matxos"})
 @EnableTransactionManagement
-@EnableJpaRepositories
-@EntityScan("cat.matxos*")
+@EnableJpaRepositories(basePackages ={"cat.matxos.dao"})
+@EntityScan("cat.matxos.*")
 public class Boot extends SpringBootServletInitializer {
 
     @Override

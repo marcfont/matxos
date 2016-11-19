@@ -13,4 +13,6 @@ public interface RankingService {
     List<ReadRanking> rankingBib(String race, String bib);
 
     List<ReadRanking> ranking(String race, FilterRanking filterRanking);
+
+    ReadRanking getReadUI(String race, String control, String bib, String time);
 }

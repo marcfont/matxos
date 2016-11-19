@@ -14,6 +14,8 @@ public class ReadRanking {
 
     private String route;
 
+    private String gender;
+
     public String getName() {
         return name;
     }
@@ -62,6 +64,14 @@ public class ReadRanking {
         this.route = route;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     @Override
     public String toString() {
         return "ReadRanking{" +
@@ -71,6 +81,7 @@ public class ReadRanking {
                 ", control='" + control + '\'' +
                 ", time='" + time + '\'' +
                 ", route='" + route + '\'' +
+                ", gender='" + gender + '\'' +
                 '}';
     }
 }

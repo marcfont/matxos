@@ -117,12 +117,21 @@ public class RankingServiceImpl implements RankingService {
         weightControlRace.put(race, weightRace);
     }
 
+    public ReadRanking getReadUI(String race, String control, String bib, String time){
+        Read r = new Read(race,control,bib,time);
+        List<ReadRanking> lr = filterAndConvert(Arrays.asList(r), race, new FilterRanking());
+        if(lr!=null && !lr.isEmpty()){
+            return lr.get(0);
+        }
+        return null;
+    }
 
     private List<ReadRanking> filterAndConvert(Collection<Read> reads, String race, FilterRanking filterRanking){
 
         if (!runners.containsKey(race) || lastUpdate> System.currentTimeMillis() + 300000){ //every 5min
             Map<String, Runner> runnersRace = runnerService.getRunners(race);
             runners.put(race, runnersRace);
+            lastUpdate = System.currentTimeMillis();
         }
 
         long start = Long.valueOf(env.getProperty(race + ".start.ms", "0"));
@@ -158,12 +167,15 @@ public class RankingServiceImpl implements RankingService {
                 ranking.setControl(controlService.getControlName(race, read.getReadKey().getControl()));
                 ranking.setName(runner.getName());
                 ranking.setRoute(runner.getRoute());
+                ranking.setGender(runner.getMale() ? "M" : "F");
 
                 rankings.add(ranking);
             }
         }
         return  rankings;
     }
+
+
 
     private String getTime( long start, String time) {
 

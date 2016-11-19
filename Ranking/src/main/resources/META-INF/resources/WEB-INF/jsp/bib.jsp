@@ -7,6 +7,42 @@
     <jsp:include page="bootstrap.jsp"/>
 </head>
 <body>
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+    enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
+<script>
+
+    var bib = ${bib};
+
+    var socket = new SockJS('/ws-ranking');
+    var stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/ranking', function (read) {
+            newRead(read);
+        });
+    });
+
+    $(window).on('unload', function(){
+        if (stompClient != null) {
+            stompClient.disconnect();
+        }
+        console.log("Disconnected");
+    });
+
+    function newRead(read) {
+        var r = JSON.parse(read.body);
+
+        if (r.bib == bib) {
+            var tr = $("<tr>");
+            tr.append("<td>" + r.control + "</td>");
+            tr.append("<td>" + r.time + "</td>");
+            tr.append("</tr>");
+
+            $('#ranking-body').append(tr);
+        }
+    }
+</script>
 
 <div class="container-fluid">
     <div class="row" style="margin-bottom: 40px; background-color: #FF5640; font-size: xx-large; color: azure;">
@@ -27,19 +63,21 @@
                     <th><b>Control</b></th>
                     <th><b>Temps</b></th>
                 </thead>
-                <c:forEach items="${rankings}" var="r">
-                    <tr>
-                        <td>${r.control}</td>
-                        <c:choose>
-                            <c:when test="${r.control.equals('Sortida')}">
-                                <td>00h 00m 00s</td>
-                            </c:when>
-                            <c:otherwise>
-                                <td>${r.time}</td>
-                            </c:otherwise>
-                        </c:choose>
-                    </tr>
-                </c:forEach>
+                <tbody id="ranking-body">
+                    <c:forEach items="${rankings}" var="r">
+                        <tr>
+                            <td>${r.control}</td>
+                            <c:choose>
+                                <c:when test="${r.control.equals('Sortida')}">
+                                    <td>00h 00m 00s</td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td>${r.time}</td>
+                                </c:otherwise>
+                            </c:choose>
+                        </tr>
+                    </c:forEach>
+                </tbody>
             </table>
         </div>
     </div>

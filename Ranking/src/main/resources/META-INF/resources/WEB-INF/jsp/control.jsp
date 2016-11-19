@@ -7,7 +7,70 @@
     <jsp:include page="bootstrap.jsp"/>
 </head>
 <body>
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+    enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
+<script>
 
+    var control = "${controltitle}";
+    var bibFil = "${param.bib}";
+    var nameFil = "${param.name}";
+    var routeFil = "${param.route}";
+    var genderFil = "${param.gender}";
+
+    var socket = new SockJS('/ws-ranking');
+    var stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/ranking', function (read) {
+            newRead(read);
+        });
+    });
+
+    $(window).on('unload', function(){
+        if (stompClient != null) {
+            stompClient.disconnect();
+        }
+        console.log("Disconnected");
+    });
+
+    function newRead(read) {
+        var r = JSON.parse(read.body);
+        console.log(r);
+        if (r.control.toUpperCase() === control.toUpperCase()) {
+
+            var filtered = false;
+
+            if (bibFil.length != 0 && r.bib != bibFil){
+                filtered = true;
+            }
+
+            var regex = new RegExp("[a-z ]*"+ nameFil.toLowerCase()+"[a-z ]*");
+            if (!filtered && nameFil.length != 0 && !regex.test(r.name.toLowerCase())){
+                filtered = true;
+            }
+
+            if (!filtered && routeFil.length != 0 && r.route.toUpperCase() != routeFil.toUpperCase()){
+                filtered = true;
+            }
+
+            if (!filtered && genderFil.length != 0 && r.gender.toUpperCase() != genderFil.toUpperCase()){
+                filtered = true;
+            }
+
+            if (!filtered){
+                var tr = $("<tr>");
+                tr.append("<td>" + r.bib + "</td>");
+                tr.append('<td><a href="/ranking/race/${race}/bibs/' + r.bib + '/ranking">' + r.name + "</a></td>");
+                tr.append("<td>" + r.time + "</td>");
+                tr.append("<td>" + r.route + "</td>");
+                tr.append("</tr>");
+
+                $('#ranking-body').append(tr);
+            }
+        }
+    }
+</script>
 <div class="container-fluid">
     <div class="row" style="margin-bottom: 40px; background-color: #FF5640; font-size: xx-large; color: azure;">
         <div class="col-md-8 col-md-offset-2" style="padding: 6%;">
@@ -76,21 +139,23 @@
                     <th><b>Temps</b></th>
                     <th><b>Ruta prevista</b></th>
                 </thead>
-                <c:forEach items="${rankings}" var="r">
-                    <tr>
-                        <td>${r.bib}</td>
-                        <td><a href="/ranking/race/${race}/bibs/${r.bib}/ranking">${r.name}</a></td>
-                        <c:choose>
-                            <c:when test="${r.control.equals('Sortida')}">
-                                <td>00h 00m 00s</td>
-                            </c:when>
-                            <c:otherwise>
-                                <td>${r.time}</td>
-                            </c:otherwise>
-                        </c:choose>
-                        <td>${r.route}</td>
-                    </tr>
-                </c:forEach>
+                <tbody id="ranking-body">
+                    <c:forEach items="${rankings}" var="r">
+                        <tr>
+                            <td>${r.bib}</td>
+                            <td><a href="/ranking/race/${race}/bibs/${r.bib}/ranking">${r.name}</a></td>
+                            <c:choose>
+                                <c:when test="${r.control.equals('Sortida')}">
+                                    <td>00h 00m 00s</td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td>${r.time}</td>
+                                </c:otherwise>
+                            </c:choose>
+                            <td>${r.route}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
             </table>
         </div>
     </div>
