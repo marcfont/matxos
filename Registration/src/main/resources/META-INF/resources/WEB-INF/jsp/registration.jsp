@@ -58,7 +58,7 @@
                 <div class="form-group">
                     <label for="birthday">Data naixement*</label>
                     <input type="text" class="form-control" id="birthday" name="birthday" value="${registration.birthday}" placeholder="dd/MM/AAAA">
-                    <c:if test="${errors.hasFieldErrors('birthday')}"><span style="color: red;">Data naixement inv&agrave;lida</span></c:if>
+                    <c:if test="${errors.hasFieldErrors('birthday')}"><span style="color: red;">Data naixement inv&agrave;lida (format dd/MM/AAAA) o menor d'edat</span></c:if>
                 </div>
                 <div class="form-group">
                     <label for="size">Talla samarreta</label>

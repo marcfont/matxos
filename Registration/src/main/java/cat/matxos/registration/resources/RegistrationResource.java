@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -122,6 +124,12 @@ public class RegistrationResource extends Resource {
             //validate phone
             if (!phoneService.isValid(registration.getTelf())) {
                 prepareError(registration, model, bindingResult, "telf");
+                return "registration";
+            }
+
+            //min age
+            if (!minAge(race, registration.getBirthday())) {
+                prepareError(registration, model, bindingResult, "birthday");
                 return "registration";
             }
 
@@ -230,6 +238,31 @@ public class RegistrationResource extends Resource {
             log.log(Level.SEVERE, "Error checking max participants", e);
         }
         return false;
+
+    }
+
+    private boolean minAge(String race, String birthdayStr){
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/YYYY");
+
+            String minAgeStr = env.getProperty(race + ".min-age");
+            if (minAgeStr == null || minAgeStr.isEmpty()) {
+                return true;
+            }
+            Date minAge = formatter.parse(minAgeStr);
+            Date birthday = formatter.parse(birthdayStr);
+
+            return minAge.after(birthday);
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Error checking min age", e);
+        }
+        return false;
+    }
+
+    private void sendEmail(String race, String email){
+
+
+
 
     }
 }

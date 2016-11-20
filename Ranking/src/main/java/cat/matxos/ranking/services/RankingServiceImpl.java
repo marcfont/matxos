@@ -90,7 +90,8 @@ public class RankingServiceImpl implements RankingService {
                     Integer weight1 = weightControlRace.get(race).get(r1.getReadKey().getControl());
                     Integer weight2 = weightControlRace.get(race).get(r2.getReadKey().getControl());
                     if( weight1 == weight2) {
-                        return Long.valueOf(r1.getTime()).compareTo(Long.valueOf(r2.getTime()));
+                        int compare = Long.valueOf(r1.getTime()).compareTo(Long.valueOf(r2.getTime()));
+                        return  compare==0 ? -1: compare;
                     } else {
                         return weight2.compareTo(weight1); //ojo girats!
                     }
@@ -160,14 +161,17 @@ public class RankingServiceImpl implements RankingService {
             }
 
             if (inBib && inGender && inRoute && inName) {
+                Control c = controlService.getControl(race, read.getReadKey().getControl());
                 ReadRanking ranking = new ReadRanking();
                 ranking.setBib(read.getReadKey().getBib());
                 ranking.setRace(race);
                 ranking.setTime(getTime(start, read.getTime()));
-                ranking.setControl(controlService.getControlName(race, read.getReadKey().getControl()));
+                ranking.setTimeMs(read.getTime());
+                ranking.setControl(c.getName());
                 ranking.setName(runner.getName());
                 ranking.setRoute(runner.getRoute());
                 ranking.setGender(runner.getMale() ? "M" : "F");
+                ranking.setControlWeight(c.getOrder());
 
                 rankings.add(ranking);
             }

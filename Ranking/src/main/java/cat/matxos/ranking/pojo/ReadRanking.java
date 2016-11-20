@@ -16,6 +16,10 @@ public class ReadRanking {
 
     private String gender;
 
+    private String timeMs;
+
+    private int controlWeight;
+
     public String getName() {
         return name;
     }
@@ -72,6 +76,22 @@ public class ReadRanking {
         this.gender = gender;
     }
 
+    public String getTimeMs() {
+        return timeMs;
+    }
+
+    public void setTimeMs(String timeMs) {
+        this.timeMs = timeMs;
+    }
+
+    public int getControlWeight() {
+        return controlWeight;
+    }
+
+    public void setControlWeight(int controlWeight) {
+        this.controlWeight = controlWeight;
+    }
+
     @Override
     public String toString() {
         return "ReadRanking{" +
@@ -82,6 +102,7 @@ public class ReadRanking {
                 ", time='" + time + '\'' +
                 ", route='" + route + '\'' +
                 ", gender='" + gender + '\'' +
+                ", timeMs='" + timeMs + '\'' +
                 '}';
     }
 }

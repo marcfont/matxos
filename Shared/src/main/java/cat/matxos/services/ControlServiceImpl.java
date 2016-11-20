@@ -36,6 +36,14 @@ public class ControlServiceImpl implements ControlService {
         return controlsRace.get(race).stream().filter(c -> c.getId().equals(id)).findFirst().orElse(new Control()).getName();
     }
 
+    @Override
+    public Control getControl(String race, String id) {
+        if (controlsRace == null) {
+            loadControls();
+        }
+        return controlsRace.get(race).stream().filter(c -> c.getId().equals(id)).findFirst().orElse(new Control());
+    }
+
     private void loadControls() {
 
         String[] races = env.getProperty("race.ids").split(",");

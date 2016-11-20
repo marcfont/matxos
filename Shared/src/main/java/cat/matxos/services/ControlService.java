@@ -10,4 +10,6 @@ public interface ControlService {
     List<Control> getControls(String race);
 
     String getControlName(String race, String id);
+
+    Control getControl(String race, String id);
 }

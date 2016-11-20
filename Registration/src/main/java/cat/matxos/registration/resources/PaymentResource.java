@@ -3,6 +3,7 @@ package cat.matxos.registration.resources;
 import cat.matxos.pojo.PaymentOrder;
 import cat.matxos.pojo.Registration;
 import cat.matxos.dao.RegistrationDAO;
+import cat.matxos.registration.services.EmailService;
 import cat.matxos.registration.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +32,9 @@ public class PaymentResource extends Resource {
 
     @Autowired
     private RegistrationDAO registrationDAO;
+
+    @Autowired
+    private EmailService emailService;
 
     @PostMapping("/payment/race/{race}")
     public String payment(@PathVariable("race") String race, Model model, @RequestParam("id") String id) {
@@ -75,6 +79,8 @@ public class PaymentResource extends Resource {
                 Registration registration = registrationDAO.findByRaceAndPaymentId(race, orderId);
                 registration.setIsCompleted(true);
                 registrationDAO.save(registration);
+
+                emailService.sendConfirmation(getProperty(registration.getRace() + ".race.name", race), registration);
             }
 
             return "ok";
