@@ -205,7 +205,8 @@ public class RegistrationResource extends Resource {
     private void fillModel(Model model, String race) {
         model.addAttribute("title", getProperty(race + ".race.name"));
         model.addAttribute("routes", routeService.getRoutes(race));
-        model.addAttribute("sizes", tShirtSizeService.getSizeAvailable());
+        model.addAttribute("sizesM", tShirtSizeService.getSizeAvailable(true));
+        model.addAttribute("sizesF", tShirtSizeService.getSizeAvailable(false));
         model.addAttribute("race", race);
     }
 

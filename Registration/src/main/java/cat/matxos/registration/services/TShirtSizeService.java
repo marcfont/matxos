@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TShirtSizeService {
 
-    List<TShirtSize> getSizeAvailable();
+    List<TShirtSize> getSizeAvailable(boolean male);
 
-    boolean isAvailable(String size);
+    //boolean isAvailable(String size);
 }

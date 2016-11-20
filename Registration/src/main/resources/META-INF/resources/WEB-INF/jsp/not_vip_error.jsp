@@ -21,7 +21,7 @@
             <br>
             <h1>El teu DNI no esta habilitat per a la inscripci&oacute; VIP</h1>
             <br>
-            <span>Si creus que hauries de poder, contacte amb el CET</span>
+            <span>Si creus que hauries de poder, contacteu amb nosaltres: <a href="mailto:inscripcions@matxos.cat">inscripcions@matxos.cat</a></span>
         </div>
     </div>
 </div>

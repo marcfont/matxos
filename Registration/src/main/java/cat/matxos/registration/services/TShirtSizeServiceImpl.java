@@ -24,18 +24,27 @@ public class TShirtSizeServiceImpl implements TShirtSizeService {
     @Autowired
     private RegistrationDAO registrationDAO;
 
-    List<TShirtSize> sizes;
+    List<TShirtSize> sizesM;
+
+    List<TShirtSize> sizesF;
 
     @Override
-    public List<TShirtSize> getSizeAvailable() {
+    public List<TShirtSize> getSizeAvailable(boolean male) {
 
-        if (sizes == null) {
+        if (sizesM == null) {
             loadSizes();
+        }
+
+        List<TShirtSize> sizes;
+        if (male){
+            sizes = sizesM;
+        } else {
+            sizes = sizesF;
         }
 
         return sizes.stream().filter(s -> s.getStock() > registrationDAO.countBySizeAndAndIsCompletedIsTrue(s.getId())).collect(Collectors.toList());
     }
-
+/*
     @Override
     public boolean isAvailable(String size) {
 
@@ -47,23 +56,29 @@ public class TShirtSizeServiceImpl implements TShirtSizeService {
         log.log(Level.INFO, "There are " + current + " " + size);
         return sizes.stream().filter(s -> size.equals(s.getId())).findFirst().get().getStock() < current;
     }
-
+*/
     private void loadSizes() {
 
-        sizes = new ArrayList<>();
+        sizesF = new ArrayList<>();
+        sizesM = new ArrayList<>();
 
         int i = 1;
         boolean end = false;
         while (!end) {
-            TShirtSize t = new TShirtSize();
+            TShirtSize tm = new TShirtSize();
+            TShirtSize tf = new TShirtSize();
             String id = env.getProperty("size." + i + ".id");
             if (id == null) {
                 end = true;
             } else {
-                t.setId(id);
-                t.setName(env.getProperty("size." + i + ".name"));
-                t.setStock(Integer.valueOf(env.getProperty("size." + i + ".stock")));
-                sizes.add(t);
+                tf.setId(id);
+                tf.setName(env.getProperty("size." + i + ".name"));
+                tf.setStock(Integer.valueOf(env.getProperty("size." + i + ".F.stock")));
+                sizesF.add(tf);
+                tm.setId(id);
+                tm.setName(env.getProperty("size." + i + ".name"));
+                tm.setStock(Integer.valueOf(env.getProperty("size." + i + ".M.stock")));
+                sizesM.add(tm);
                 i++;
             }
         }

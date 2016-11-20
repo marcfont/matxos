@@ -7,6 +7,43 @@
     <jsp:include page="bootstrap.jsp"/>
 </head>
 <body>
+<script>
+
+    var sizesMale = {
+            <c:forEach items="${sizesM}" var="t">
+            '${t.id}':${t.stock},
+            </c:forEach>
+    };
+
+    var sizesFemale = {
+        <c:forEach items="${sizesF}" var="t">
+        '${t.id}':${t.stock},
+        </c:forEach>
+    };
+
+    $(document).ready(function () {
+        $("input[name=gender]:radio").change(function () {
+
+            $(".tshirt-size").remove();
+
+            var select = $('#size');
+
+            if($(this).val() === "D") {
+               //female
+               $.each( sizesFemale, function( key, value ) {
+                   var option = $('<option class="tshirt-size" value="' + key +'">' + key +'</option>');
+                   select.append(option);
+               });
+           } else {
+              //male
+                $.each( sizesMale, function( key, value ) {
+                    var option = $('<option class="tshirt-size" value="' + key +'">' + key +'</option>');
+                    select.append(option);
+                });
+           }
+        })
+    });
+</script>
 
 <div class="container-fluid">
     <div class="row" style="margin-bottom: 40px;">
@@ -47,8 +84,8 @@
                 </div>
                 <div class="form-group">
                     <label>Sexe*</label><br>
-                    <label class="checkbox-inline"><input type="radio" name="gender" value="H" checked>Home</label>
-                    <label class="checkbox-inline"><input type="radio" name="gender" value="D">Dona</label>
+                    <label class="checkbox-inline"><input id="male"  type="radio" name="gender" value="H" checked="true">Home</label>
+                    <label class="checkbox-inline"><input id="female" type="radio" name="gender" value="D">Dona</label>
                 </div>
                 <div class="form-group">
                     <label for="bibname">Nom dorsal</label>
@@ -64,8 +101,8 @@
                     <label for="size">Talla samarreta</label>
                     <span style="font-size: x-small"> ( ** Ja tenim les samarretes comprades. Nom&eacute;s es poden encarregar talles que encara tenen disponibilitat)</span>
                     <select id="size" name="size" class="form-control">
-                        <c:forEach items="${sizes}" var="t">
-                            <option value="${t.id}">${t.name}</option>
+                        <c:forEach items="${sizesM}" var="t">
+                            <option class="tshirt-size" value="${t.id}">${t.name}</option>
                         </c:forEach>
                     </select>
                 </div>

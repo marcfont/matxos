@@ -23,6 +23,9 @@ public class DNIValidatorServiceImpl implements DNIValidatorService{
     @Value("${vip.enabled}")
     private boolean vipEnabled;
 
+    @Value("${vip.separator}")
+    private String separator=";";
+
     private String validChars = "TRWAGMYFPDXBNJZSQVHLCKET";
     private Pattern nifRexp = Pattern.compile("^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET]{1}");
     private Pattern nieRexp = Pattern.compile("^[XYZ]{1}[0-9]{7}[TRWAGMYFPDXBNJZSQVHLCKET]{1}");
@@ -65,7 +68,7 @@ public class DNIValidatorServiceImpl implements DNIValidatorService{
         try {
             vipDnis = new HashMap<>();
             String content = FileUtils.readFileToString(new File(path));
-            String[] dnis = content.split(",");
+            String[] dnis = content.split(separator);
             for (String dni : dnis){
                 vipDnis.put(dni.toUpperCase(),dni);
             }
