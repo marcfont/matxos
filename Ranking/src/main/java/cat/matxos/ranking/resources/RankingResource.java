@@ -2,9 +2,9 @@ package cat.matxos.ranking.resources;
 
 import cat.matxos.ranking.pojo.FilterRanking;
 import cat.matxos.ranking.pojo.ReadRanking;
-import cat.matxos.ranking.pojo.Runner;
+import cat.matxos.pojo.Runner;
 import cat.matxos.ranking.services.RankingService;
-import cat.matxos.ranking.services.RunnerService;
+import cat.matxos.services.RunnerService;
 import cat.matxos.services.ControlService;
 import cat.matxos.services.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +12,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -124,13 +121,6 @@ public class RankingResource {
         ReadRanking r = rankingService.getReadUI(race,control,bib,time);
         webSocket.convertAndSend("/topic/ranking", r);
     }
-
-    //FIXME
-    @GetMapping("test")
-    public String test(){
-        return "test";
-    }
-
 
     private void fillModel(Model model, String race) {
         model.addAttribute("title", env.getProperty(race + ".race.name"));

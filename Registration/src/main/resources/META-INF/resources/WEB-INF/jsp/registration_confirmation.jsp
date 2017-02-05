@@ -18,7 +18,14 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
 
-            <form action="/payment/race/${race}" method="POST">
+            <c:choose>
+                <c:when test="${waiting.equals('waiting')}">
+                    <form action="/registration/race/${race}/waiting-confirmation" method="POST">
+                </c:when>
+                <c:otherwise>
+                    <form action="/payment/race/${race}" method="POST">
+                </c:otherwise>
+            </c:choose>
 
                 <input type="hidden" name="id" value="${id}">
                 <div class="form-group">
@@ -82,7 +89,15 @@
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Iniciar pagament</button>
+                    <c:choose>
+                        <c:when test="${waiting.equals('waiting')}">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">Confirma petici&oacute; llista espera</button>
+                        </c:when>
+                        <c:otherwise>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">Iniciar pagament</button>
+                        </c:otherwise>
+                    </c:choose>
+
                 </div>
 
             </form>

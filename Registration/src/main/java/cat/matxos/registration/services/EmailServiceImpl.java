@@ -33,7 +33,7 @@ public class EmailServiceImpl implements EmailService{
     @Override
     public void sendConfirmation(String race, Registration registration) {
         String subject ="Ja ets un Matxo";
-        String content = String.format("Hola %s<br><h2>Li comuniquem que la inscripció a %s ha estat finalizada amb èxit</h2>", registration.getName(),race);
+        String content = String.format("Hola %s<br><h2>Li comuniquem que la inscripció a %s ha estat finalitzada amb èxit</h2>", registration.getName(),race);
         sendEmail(registration.getEmail(), subject, content);
     }
 
@@ -56,8 +56,8 @@ public class EmailServiceImpl implements EmailService{
             message.setFrom(new InternetAddress(emailUser));
 
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.setSubject(subject);
-            message.setContent(content, "text/html");
+            message.setSubject(subject, "UTF-8");
+            message.setContent(content, "text/html; charset=UTF-8");
 
             // Send message
             Transport transport = session.getTransport("smtps");

@@ -35,6 +35,8 @@ public class DNIValidatorServiceImpl implements DNIValidatorService{
     @Override
     public boolean isValid(String dni) {
 
+        dni = dni.toUpperCase();
+
         Matcher dniMatcher = nifRexp.matcher(dni);
         Matcher nieMatcher = nieRexp.matcher(dni);
 

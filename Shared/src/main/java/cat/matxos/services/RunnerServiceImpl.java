@@ -1,10 +1,10 @@
-package cat.matxos.ranking.services;
+package cat.matxos.services;
 
 
 import cat.matxos.dao.RegistrationDAO;
 import cat.matxos.pojo.Registration;
-import cat.matxos.ranking.pojo.Runner;
-import cat.matxos.services.RouteService;
+import cat.matxos.pojo.Runner;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,11 +60,11 @@ public class RunnerServiceImpl implements RunnerService {
     }
 
     private String getName(Registration registration) {
-        return new StringBuffer(registration.getSurname1())
+        return new StringBuffer(StringUtils.capitalize(registration.getSurname1().toLowerCase()))
                 .append(" ")
-                .append(registration.getSurname2())
+                .append(StringUtils.capitalize(registration.getSurname2().toLowerCase()))
                 .append(", ")
-                .append(registration.getName()).toString();
+                .append(StringUtils.capitalize(registration.getName().toLowerCase())).toString();
     }
 
 }

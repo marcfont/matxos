@@ -29,20 +29,22 @@ public class TShirtSizeServiceImpl implements TShirtSizeService {
     List<TShirtSize> sizesF;
 
     @Override
-    public List<TShirtSize> getSizeAvailable(boolean male) {
+    public List<TShirtSize> getSizeAvailable(String race, boolean male) {
 
         if (sizesM == null) {
             loadSizes();
         }
 
-        List<TShirtSize> sizes;
-        if (male){
-            sizes = sizesM;
+        //TODO hardcode!!!
+        if(race.equalsIgnoreCase("MATXOS17")){
+            if (male){
+                return sizesM.stream().filter(s -> s.getStock() >= registrationDAO.countBySizeAndAndIsCompletedIsTrueAndGender(s.getId(), "H", race)).collect(Collectors.toList());
+            } else {
+                return sizesF.stream().filter(s -> s.getStock() >= registrationDAO.countBySizeAndAndIsCompletedIsTrueAndGender(s.getId(), "D", race)).collect(Collectors.toList());
+            }
         } else {
-            sizes = sizesF;
+            return sizesM;
         }
-
-        return sizes.stream().filter(s -> s.getStock() > registrationDAO.countBySizeAndAndIsCompletedIsTrue(s.getId())).collect(Collectors.toList());
     }
 /*
     @Override

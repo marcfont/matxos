@@ -1,7 +1,8 @@
-package cat.matxos.ranking.services;
+package cat.matxos.services;
 
 
-import cat.matxos.ranking.pojo.Runner;
+
+import cat.matxos.pojo.Runner;
 
 import java.util.Map;
 

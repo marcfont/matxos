@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Configuration
 public class ControlServiceImpl implements ControlService {
@@ -42,6 +44,24 @@ public class ControlServiceImpl implements ControlService {
             loadControls();
         }
         return controlsRace.get(race).stream().filter(c -> c.getId().equals(id)).findFirst().orElse(new Control());
+    }
+
+    @Override
+    public List<Control> getControlsBefore(String race, String id) {
+        if (controlsRace == null) {
+            loadControls();
+        }
+        Control control = getControl(race, id);
+        return controlsRace.get(race).stream().filter(c -> c.getOrder() <= control.getOrder()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Control> getControlsAfter(String race, String id) {
+        if (controlsRace == null) {
+            loadControls();
+        }
+        Control control = getControl(race, id);
+        return controlsRace.get(race).stream().filter(c -> c.getOrder() >= control.getOrder()).collect(Collectors.toList());
     }
 
     private void loadControls() {

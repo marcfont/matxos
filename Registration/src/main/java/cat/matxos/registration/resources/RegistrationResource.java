@@ -13,18 +13,23 @@ import cat.matxos.registration.services.PhoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -62,23 +67,88 @@ public class RegistrationResource extends Resource {
     @Value("${vip.enabled}")
     private boolean vipEnabled;
 
+    @Value("${waiting.enabled}")
+    private boolean waitingEnabled;
+
+
     @GetMapping("registration/race/{race}/registrations")
     public String registrations(@PathVariable("race") String race, Model model) {
 
         List<Registration> registrationList = registrationDAO.findByRaceAndIsCompleted(race, true);
 
         model.addAttribute("registrations", registrationList);
+        model.addAttribute("available", getAvailable(race));
         fillModel(model, race);
 
         return "registrations";
+    }
+
+    @GetMapping("registration/race/{race}/waitings")
+    public String waitings(@PathVariable("race") String race, Model model) {
+
+        List<Registration> waitings = registrationDAO.findByRaceAndIsWaitingIsTrueAndIsCompletedIsFalse(race);
+
+        model.addAttribute("waitings", waitings);
+        fillModel(model, race);
+
+        return "waitings";
+    }
+
+    @GetMapping(value = "/registration/race/{race}/available", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @CrossOrigin(origins = {"http://localhost:8080", "http://matxos17.weebly.com", "http://www.matxos.cat"})
+    public Available available(@PathVariable("race") String race, Model model) {
+
+        Available available = new Available(0);
+        try {
+            available.setC(getAvailable(race));
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Error getting available", e);
+        }
+        return available;
+    }
+
+    private long getAvailable(String race) {
+        if (isRegistrationEnabled(race)) {
+            long max = Long.valueOf(env.getProperty(race + ".race.max-registrations"));
+            long c = registrationDAO.countByRaceAndIsCompletedIsTrue(race);
+            long a = max - c;
+            return a < 0 ? 0 : a;
+        } else {
+            return 0;
+        }
+    }
+
+    class Available {
+        long c;
+
+        public Available(long c) {
+            this.c = c;
+        }
+
+        public long getC() {
+            return c;
+        }
+
+        public void setC(long c) {
+            this.c = c;
+        }
     }
 
     @GetMapping("/registration/race/{race}/registration")
     public String registration(@PathVariable("race") String race, Model model) {
         fillModel(model, race);
 
-        if (isFull(race)) {
+        if (!isRegistrationEnabled(race)) {
             return "race_full";
+        }
+
+        if (isFull(race)) {
+            if (waitingEnabled) {
+                return "waiting_ini_info";
+            } else {
+                return "race_full";
+            }
         }
 
         if (vipEnabled) {
@@ -88,11 +158,22 @@ public class RegistrationResource extends Resource {
         }
     }
 
+    @GetMapping("/registration/race/{race}/waiting")
+    public String waiting(@PathVariable("race") String race, Model model) {
+        model.addAttribute("waiting", "waiting");
+        fillModel(model, race);
+        return "registration";
+    }
+
     @PostMapping("/registration/race/{race}/registration")
     public String save(@PathVariable("race") String race, Model model, @Valid RegistrationForm registration, BindingResult bindingResult) {
         log.log(Level.INFO, "new registration");
         try {
-            if (isFull(race)) {
+            if (!isRegistrationEnabled(race)) {
+                return "race_full";
+            }
+
+            if (isFull(race) && !waitingEnabled) {
                 return "race_full";
             }
 
@@ -138,6 +219,11 @@ public class RegistrationResource extends Resource {
 
             Registration newReg = (Registration) registrationDAO.save(convert(registration));
 
+            if (registration.getWaiting() !=null && !registration.getWaiting().isEmpty()){
+                model.addAttribute("waiting","waiting");
+            } else {
+                model.addAttribute("waiting", "");
+            }
             model.addAttribute("id", newReg.getId());
             model.addAttribute("title", getProperty(race + ".race.name"));
             model.addAttribute("race", race);
@@ -171,6 +257,20 @@ public class RegistrationResource extends Resource {
         }
     }
 
+    @PostMapping("/registration/race/{race}/waiting-confirmation")
+    public String waitingConfirmation(@PathVariable("race") String race,  @RequestParam String id, Model model) {
+        try {
+            Registration registration = registrationDAO.getOne(Long.valueOf(id));
+            registration.setIsWaiting(true);
+            registrationDAO.save(registration);
+            return "waiting_end";
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Error confirm waiting", e);
+            return "error";
+        }
+
+    }
+
     @GetMapping("/registration/race/{race}/order/{order_id}/confirmation")
     public String confirmation(@PathVariable("race") String race, @PathVariable("order_id") String orderId, Model model, @RequestParam("status") String status) {
         try {
@@ -195,7 +295,7 @@ public class RegistrationResource extends Resource {
 
         if (error != null) {
             bindingResult.rejectValue(error, error);
-            log.log(Level.INFO, error+ " not valid on new registration");
+            log.log(Level.INFO, error + " not valid on new registration");
         }
 
         model.addAttribute("registration", registration);
@@ -205,8 +305,8 @@ public class RegistrationResource extends Resource {
     private void fillModel(Model model, String race) {
         model.addAttribute("title", getProperty(race + ".race.name"));
         model.addAttribute("routes", routeService.getRoutes(race));
-        model.addAttribute("sizesM", tShirtSizeService.getSizeAvailable(true));
-        model.addAttribute("sizesF", tShirtSizeService.getSizeAvailable(false));
+        model.addAttribute("sizesM", tShirtSizeService.getSizeAvailable(race, true));
+        model.addAttribute("sizesF", tShirtSizeService.getSizeAvailable(race, false));
         model.addAttribute("race", race);
     }
 
@@ -228,13 +328,12 @@ public class RegistrationResource extends Resource {
         registration.setTelf(form.getTelf());
         registration.setTelfemer(form.getTelfemer());
         registration.setTown(form.getTown());
-
         return registration;
     }
 
     private boolean isFull(String race) {
         try {
-            return registrationDAO.countByRace(race) > Integer.valueOf(env.getProperty(race + ".race.max-registrations"));
+            return registrationDAO.countByRaceAndIsCompletedIsTrue(race) >= Integer.valueOf(env.getProperty(race + ".race.max-registrations"));
         } catch (Exception e) {
             log.log(Level.SEVERE, "Error checking max participants", e);
         }
@@ -242,7 +341,7 @@ public class RegistrationResource extends Resource {
 
     }
 
-    private boolean minAge(String race, String birthdayStr){
+    private boolean minAge(String race, String birthdayStr) {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/YYYY");
 
@@ -260,10 +359,10 @@ public class RegistrationResource extends Resource {
         return false;
     }
 
-    private void sendEmail(String race, String email){
-
-
-
-
+    private boolean isRegistrationEnabled(String race) {
+        String enabled = env.getProperty(race + ".race.registration.enabled");
+        return Boolean.valueOf(enabled);
     }
+
+
 }

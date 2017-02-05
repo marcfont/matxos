@@ -23,6 +23,7 @@ public class Read implements Serializable, Persistable{
     @EmbeddedId
     private ReadKey readKey;
 
+    @Column(name = "time")
     private String time;
 
 

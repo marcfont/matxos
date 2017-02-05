@@ -3,7 +3,7 @@
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
-    <title>Error  - ${title} </title>
+    <title>Uppss</title>
     <jsp:include page="bootstrap.jsp"/>
 </head>
 <body>
@@ -11,7 +11,7 @@
 <div class="container-fluid">
     <div class="row" style="margin-bottom: 40px;">
         <div class="col-md-12" style="background-color: #FF5640; font-size: xx-large; color: azure; padding: 10%;">
-            ${title}
+           Uppps
         </div>
     </div>
 
@@ -21,7 +21,7 @@
             <br>
             <h1>Aquesta p&agrave;gina no existeix</h1>
             <br>
-            <span>Torna-ho a començar <a href="http://www.marxos.cat">aqu&iacute;</a></span>
+            <span><a href="http://www.matxos.cat">aqu&iacute;</a></span>
         </div>
     </div>
 </div>

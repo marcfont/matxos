@@ -1,4 +1,4 @@
-package cat.matxos.ranking.pojo;
+package cat.matxos.pojo;
 
 
 public class Runner {

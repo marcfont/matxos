@@ -19,7 +19,7 @@
         <div class="col-md-8 col-md-offset-2">
 
             <form action="/registration/race/${race}/check" method="POST">
-                <span>Inscripcions obertes nom&egrave;s per persones VIP (socis)</span>
+                <span>Inscripcions obertes nom&eacute;s per persones VIP (socis)</span>
                 <br>
                 <div class="form-group">
                     <label for="dni">DNI/NIE</label>

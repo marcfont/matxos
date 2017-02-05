@@ -68,6 +68,8 @@ public class RegistrationForm {
     @Size(min=5, max=100)
     private String email;
 
+    private String waiting;
+
     public String getEmail() {
         return email;
     }
@@ -196,6 +198,14 @@ public class RegistrationForm {
         this.race = race;
     }
 
+    public String getWaiting() {
+        return waiting;
+    }
+
+    public void setWaiting(String waiting) {
+        this.waiting = waiting;
+    }
+
     @Override
     public String toString() {
         return "RegistrationForm{" +
@@ -215,6 +225,7 @@ public class RegistrationForm {
                 ", gender='" + gender + '\'' +
                 ", size='" + size + '\'' +
                 ", email='" + email + '\'' +
+                ", waiting='" + waiting + '\'' +
                 '}';
     }
 }

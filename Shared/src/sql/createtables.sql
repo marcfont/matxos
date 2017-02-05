@@ -7,3 +7,6 @@ create table payment_order (id bigint AUTO_INCREMENT PRIMARY KEY, amount DOUBLE,
 create table time_reads (race VARCHAR(50), bib VARCHAR(50), control VARCHAR(50), time bigint, PRIMARY KEY (race, control, bib));
 
 
+ALTER TABLE registration ADD is_waiting BOOL;
+ALTER TABLE registration ADD is_approved BOOL;
+ALTER TABLE registration ADD comment VARCHAR(200);

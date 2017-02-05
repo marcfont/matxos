@@ -12,4 +12,8 @@ public interface ControlService {
     String getControlName(String race, String id);
 
     Control getControl(String race, String id);
+
+    List<Control> getControlsBefore(String race, String control);
+
+    List<Control> getControlsAfter(String race, String control);
 }
