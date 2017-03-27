@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.SimpleDateFormat;
+import java.time.Clock;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,6 +31,12 @@ public class FileLoadResource {
 
     @Value("${validation.key}")
     private String psw;
+
+    private SimpleDateFormat df= new SimpleDateFormat("HH:mm:ss");
+
+    public FileLoadResource(){
+        df.setTimeZone(TimeZone.getTimeZone(ZoneId.of("UTC")));
+    }
 
     @PostMapping("/api/race/{race}/control/{control}/import")
     public String importReads(@PathVariable("race") String race,
@@ -42,9 +54,19 @@ public class FileLoadResource {
 
                     String[] data = read.trim().split("/");
 
-                    Read r = new Read(race,control, data[1].trim(), data[2].trim());
+                    String humanHour = data[2].trim();
+                    String[] parts = humanHour.split(":");
+                    Date d1 = new Date();
+                    d1.setHours(Integer.valueOf(parts[0]));
+                    d1.setMinutes(Integer.valueOf(parts[1]));
+                    d1.setSeconds(Integer.valueOf(parts[2]));
+
+                    Read r = new Read(race, control, data[1].trim(), String.valueOf(d1.getTime()));
                     readDAO.save(r);
                 }
+            }else {
+                log.log(Level.INFO, "Error psw");
+
             }
         } catch (Exception e) {
             log.log(Level.SEVERE, "Error uploading import", e);

@@ -63,7 +63,7 @@ public class HomeResource {
     public String newOut(@PathVariable("race") String race, @RequestParam("control") String control, @RequestParam("bib") String bib, Model model) {
 
         try {
-            Read out = new Read(race, control, bib, "-1");
+            Read out = new Read(race, control, bib, "9999999999999");
             timesDao.save(out);
         } catch (Exception e) {
             log.log(Level.SEVERE, "Error adding out", e);

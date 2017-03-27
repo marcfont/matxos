@@ -54,7 +54,7 @@
                     <c:if test="${errors.hasFieldErrors('bib')}"><span style="color: red;">Dorsal inv&agrave;lid</span></c:if>
                 </div>
                 <div class="form-group">
-                    <label for="time">Temps*</label>
+                    <label for="time">Temps* (hora que ha passat)</label>
                     <input type="text" name="time" class="form-control" id="time" value="" placeholder="HH:mm:ss">
                     <c:if test="${errors.hasFieldErrors('time')}"><span style="color: red;">Temps inv&agrave;lid</span></c:if>
                 </div>

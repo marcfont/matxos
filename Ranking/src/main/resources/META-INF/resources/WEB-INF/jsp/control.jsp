@@ -79,7 +79,7 @@
         <div class="pull-right" style="font-size: x-large; padding: 10px;"><a style="color: white" href="/ranking/race/${race}/ranking">Torna Ranking</a></div>
     </div>
     <div class="row">
-        <div class="col-md-1"><a href="/ranking/race/${race}/ranking"><b>GENERAL</b></a></div>
+        <div class="col-md-1"><a href="/ranking/race/${race}/ranking"><b>GENERAL</b></a></div><br>
         <c:forEach items="${controls}" var="c">
             <div class="col-md-1"><a href="/ranking/race/${race}/control/${c.id}/ranking"><b>${c.name}</b></a></div>
         </c:forEach>

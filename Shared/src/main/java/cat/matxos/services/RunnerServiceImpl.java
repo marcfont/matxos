@@ -8,12 +8,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Service
 public class RunnerServiceImpl implements RunnerService {
+
+    private static Logger log = Logger.getLogger(RunnerServiceImpl.class.getName());
+
 
     //super simple cache
     private static Map<String, Long> lastUpdate = new HashMap<>();
@@ -36,8 +41,12 @@ public class RunnerServiceImpl implements RunnerService {
     public Map<String, Runner> getRunners(String race) {
 
         Long last = lastUpdate.get(race);
-        if (last == null || last + 300000 > System.currentTimeMillis()) {
+        if (last != null) {
+            log.info("last update was: " +  new Date(last).toString());
+        }
 
+        if (last == null || last + 30000 < System.currentTimeMillis()) {
+            log.info("updating cache runners");
             Map<String, Runner> runnersRace = new HashMap<>();
             List<Registration> registrations = registrationDAO.findByRaceAndIsCompleted(race, true);
 
@@ -54,6 +63,7 @@ public class RunnerServiceImpl implements RunnerService {
 
             lastUpdate.put(race, System.currentTimeMillis());
             runners.put(race, runnersRace);
+            log.info("updated cache runners");
         }
 
         return runners.get(race);

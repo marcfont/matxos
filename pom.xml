@@ -15,6 +15,7 @@
         <module>Ranking</module>
         <module>RaceControl</module>
         <module>HtmlGenerator</module>
+        <module>Scripts</module>
     </modules>
 
     <parent>
@@ -22,14 +23,14 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.4.0.RELEASE</version>
     </parent>
-
+<!--
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
-
+-->
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

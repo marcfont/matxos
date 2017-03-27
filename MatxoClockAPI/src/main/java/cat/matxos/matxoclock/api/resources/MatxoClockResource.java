@@ -5,6 +5,14 @@ import cat.matxos.dao.RegistrationDAO;
 import cat.matxos.matxoclock.api.form.ReadForm;
 import cat.matxos.pojo.Read;
 import cat.matxos.pojo.Registration;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContextBuilder;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -33,6 +41,27 @@ public class MatxoClockResource {
     @Value("${validation.key}")
     private String key;
 
+    @Value("${ranking.enabled}")
+    private boolean enabled;
+
+    @Value("${ranking.endpoint}")
+    private String endpointRanking;
+
+    private CloseableHttpClient client;
+
+    public MatxoClockResource() throws Exception {
+        SSLContextBuilder builder = new SSLContextBuilder();
+        builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
+        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
+                builder.build());
+
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectionRequestTimeout(1000)
+                .setConnectTimeout(1000).
+                        setSocketTimeout(1000).build();
+        client = HttpClients.custom().setDefaultRequestConfig(requestConfig).setSSLSocketFactory(sslsf).build();
+    }
+
     @RequestMapping(
             path = "/api/race/{race}/read",
             method = RequestMethod.POST,
@@ -48,6 +77,9 @@ public class MatxoClockResource {
                 if (read.getRace().startsWith("MATXO") && "ARR".equalsIgnoreCase(read.getControl())) {
                     updateRoute(read.getRace(), read.getBib());
                 }
+
+                //notify ranking
+                notifyRanking(read);
 
                 return "ok";
             } else {
@@ -88,7 +120,8 @@ public class MatxoClockResource {
             List<Read> reads = readDAO.findByBib(bib, race);
             for (Read r : reads) {
 
-                if ("CAB".equalsIgnoreCase(r.getReadKey().getControl())) {
+                if ("CAB".equalsIgnoreCase(r.getReadKey().getControl())
+                        || "PR2".equalsIgnoreCase(r.getReadKey().getControl())) {
                     cabrera = true;
                 }
                 if ("PUIG".equalsIgnoreCase(r.getReadKey().getControl())) {
@@ -103,7 +136,10 @@ public class MatxoClockResource {
                 route = "CAB";
             } else if (!cabrera && puigsacalm) {
                 route = "PUI";
+            } else if (!cabrera && !puigsacalm) {
+                route = "BELL";
             }
+            log.log(Level.INFO, "Updating route bib:" + bib + " route: " + route);
 
             List<Registration> registration = registrationDAO.findByRaceAndBib(race, bib);
             if (registration != null && registration.size() == 1) {
@@ -119,5 +155,27 @@ public class MatxoClockResource {
         } catch (Exception e) {
             log.log(Level.SEVERE, "Error updating route", e);
         }
+    }
+
+    private void notifyRanking(ReadForm read) {
+
+        try {
+
+            if (enabled) {
+
+                String url = String.format(endpointRanking, read.getRace(), read.getControl(), read.getBib(), read.getTime());
+                HttpPut put = new HttpPut(url);
+
+                HttpResponse response = client.execute(put);
+                if (response != null && response.getStatusLine().getStatusCode() != 200){
+                    log.log(Level.SEVERE, "error notifying ranking status code:" + response.getStatusLine().getStatusCode());
+                }
+
+            }
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "error notifying ranking", e);
+        }
+
+
     }
 }

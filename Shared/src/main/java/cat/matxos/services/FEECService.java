@@ -1,4 +1,4 @@
-package cat.matxos.registration.services;
+package cat.matxos.services;
 
 
 public interface FEECService {

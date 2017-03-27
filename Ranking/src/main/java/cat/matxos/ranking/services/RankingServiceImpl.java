@@ -25,10 +25,6 @@ public class RankingServiceImpl implements RankingService {
 
     private static Logger log = Logger.getLogger(RankingServiceImpl.class.getName());
 
-    //Cache to avoid joins
-    private static Map<String, Map<String, Runner>> runners = new HashMap<>(); //map of races/ map of runners
-    private static long lastUpdate = System.currentTimeMillis();
-
     private static Map<String,Map<String, Integer>> weightControlRace = new HashMap<>();
 
     final private SimpleDateFormat df = new SimpleDateFormat("HH'h' mm'm' ss's'");
@@ -90,6 +86,8 @@ public class RankingServiceImpl implements RankingService {
                 public int compare(Read r1, Read r2) {
                     Integer weight1 = weightControlRace.get(race).get(r1.getReadKey().getControl());
                     Integer weight2 = weightControlRace.get(race).get(r2.getReadKey().getControl());
+                    weight1 = weight1 == null ? Integer.MAX_VALUE : weight1;
+                    weight2 = weight2 == null ? Integer.MAX_VALUE : weight2;
                     if( weight1 == weight2) {
                         int compare = Long.valueOf(r1.getTime()).compareTo(Long.valueOf(r2.getTime()));
                         return  compare==0 ? -1: compare;
@@ -130,18 +128,18 @@ public class RankingServiceImpl implements RankingService {
 
     private List<ReadRanking> filterAndConvert(Collection<Read> reads, String race, FilterRanking filterRanking){
 
-        if (!runners.containsKey(race) || lastUpdate> System.currentTimeMillis() + 300000){ //every 5min
-            Map<String, Runner> runnersRace = runnerService.getRunners(race);
-            runners.put(race, runnersRace);
-            lastUpdate = System.currentTimeMillis();
-        }
+        Map<String, Runner> runnersRace = runnerService.getRunners(race);
 
         long start = Long.valueOf(env.getProperty(race + ".start.ms", "0"));
 
         List<ReadRanking> rankings = new ArrayList<>();
         for (Read read : reads){
 
-            Runner runner = runners.get(race).get(read.getReadKey().getBib());
+            Runner runner = runnersRace.get(read.getReadKey().getBib());
+            if (runner == null){
+                log.log(Level.WARNING, "runner does not exist. bib:"+read.getReadKey().getBib());
+                continue;
+            }
             boolean inBib = true;
             boolean inGender = true;
             boolean inRoute = true;
@@ -183,6 +181,10 @@ public class RankingServiceImpl implements RankingService {
 
 
     private String getTime( long start, String time) {
+
+        if ("9999999999999".equals(time)){
+            return "OUT";
+        }
 
         long diff = Long.valueOf(time) - start;
         Date date = new Date(diff);

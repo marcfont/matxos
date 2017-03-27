@@ -99,7 +99,7 @@
         </div>
     </div>
     <div class="row" style="margin-bottom: 10px;">
-        <div class="col-md-1"><a href="/ranking/race/${race}/ranking"><b>GENERAL</b></a></div>
+        <div class="col-md-1"><a href="/ranking/race/${race}/ranking"><b>GENERAL</b></a></div><br>
         <c:forEach items="${controls}" var="c">
             <div class="col-md-1"><a href="/ranking/race/${race}/control/${c.id}/ranking"><b>${c.name}</b></a></div>
         </c:forEach>

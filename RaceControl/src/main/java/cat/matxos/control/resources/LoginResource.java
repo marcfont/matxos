@@ -33,7 +33,7 @@ public class LoginResource {
             if (user.equals(this.user) && password.equals(psw)) {
 
                 Cookie loginCookie = new Cookie(LOGGED, user);
-                loginCookie.setMaxAge(5 * 60); //set expire time to 1000 sec
+                loginCookie.setMaxAge(5 * 24 * 60 * 60); //set expire time to 1000 sec
                 response.addCookie(loginCookie);
 
                 return "redirect:/control/home";

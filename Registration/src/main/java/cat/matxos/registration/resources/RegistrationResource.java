@@ -4,7 +4,7 @@ package cat.matxos.registration.resources;
 import cat.matxos.dao.RegistrationDAO;
 import cat.matxos.registration.forms.RegistrationForm;
 import cat.matxos.pojo.Registration;
-import cat.matxos.registration.services.FEECService;
+import cat.matxos.services.FEECService;
 import cat.matxos.registration.services.TShirtSizeService;
 import cat.matxos.services.ControlService;
 import cat.matxos.services.RouteService;
@@ -19,17 +19,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
