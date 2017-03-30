@@ -2,14 +2,13 @@ package cat.matxos.registration.resources;
 
 
 import cat.matxos.dao.RegistrationDAO;
-import cat.matxos.registration.forms.RegistrationForm;
 import cat.matxos.pojo.Registration;
-import cat.matxos.services.FEECService;
-import cat.matxos.registration.services.TShirtSizeService;
-import cat.matxos.services.ControlService;
-import cat.matxos.services.RouteService;
+import cat.matxos.registration.forms.RegistrationForm;
 import cat.matxos.registration.services.DNIValidatorService;
 import cat.matxos.registration.services.PhoneService;
+import cat.matxos.registration.services.TShirtSizeService;
+import cat.matxos.services.FEECService;
+import cat.matxos.services.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -35,9 +34,6 @@ public class RegistrationResource extends Resource {
 
     @Autowired
     private Environment env;
-
-    @Autowired
-    private ControlService controlService;
 
     @Autowired
     private RouteService routeService;

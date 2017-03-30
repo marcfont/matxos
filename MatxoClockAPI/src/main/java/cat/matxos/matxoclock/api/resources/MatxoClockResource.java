@@ -47,6 +47,9 @@ public class MatxoClockResource {
     @Value("${ranking.endpoint}")
     private String endpointRanking;
 
+    @Value("${ranking.timeout}")
+    private int timeout;
+
     private CloseableHttpClient client;
 
     public MatxoClockResource() throws Exception {
@@ -56,9 +59,9 @@ public class MatxoClockResource {
                 builder.build());
 
         RequestConfig requestConfig = RequestConfig.custom()
-                .setConnectionRequestTimeout(1000)
-                .setConnectTimeout(1000).
-                        setSocketTimeout(1000).build();
+                .setConnectionRequestTimeout(timeout)
+                .setConnectTimeout(timeout)
+                .setSocketTimeout(timeout).build();
         client = HttpClients.custom().setDefaultRequestConfig(requestConfig).setSSLSocketFactory(sslsf).build();
     }
 
@@ -75,6 +78,7 @@ public class MatxoClockResource {
 
                 //FIXME hack actualizar ruta
                 if (read.getRace().startsWith("MATXO") && "ARR".equalsIgnoreCase(read.getControl())) {
+                    log.log(Level.INFO, "updating route if needed ");
                     updateRoute(read.getRace(), read.getBib());
                 }
 
@@ -164,11 +168,14 @@ public class MatxoClockResource {
             if (enabled) {
 
                 String url = String.format(endpointRanking, read.getRace(), read.getControl(), read.getBib(), read.getTime());
+                log.log(Level.INFO, "url to notify:" + url);
                 HttpPut put = new HttpPut(url);
 
                 HttpResponse response = client.execute(put);
                 if (response != null && response.getStatusLine().getStatusCode() != 200){
                     log.log(Level.SEVERE, "error notifying ranking status code:" + response.getStatusLine().getStatusCode());
+                } else {
+                    log.log(Level.INFO, "read notified");
                 }
 
             }

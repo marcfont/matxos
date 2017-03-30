@@ -17,6 +17,13 @@
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+            <a href="/control/home">Tornar</a>
+            <br><br>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
             <h1>Nou abandonament</h1><br>
             <form action="/control/races/${race}/out" method="POST" accept-charset="utf-8">
                 <div class="form-group">

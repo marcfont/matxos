@@ -1,10 +1,10 @@
 package cat.matxos.ranking.resources;
 
+import cat.matxos.dao.ControlDAO;
 import cat.matxos.dao.ReadDAO;
 import cat.matxos.pojo.Control;
 import cat.matxos.pojo.Read;
 import cat.matxos.pojo.Runner;
-import cat.matxos.services.ControlService;
 import cat.matxos.services.RunnerService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class RankingExportResource {
     private ReadDAO readDAO;
 
     @Autowired
-    private ControlService controlService;
+    private ControlDAO controlDAO;
 
     @Autowired
     private RunnerService runnerService;
@@ -40,7 +40,7 @@ public class RankingExportResource {
     public void export(@PathVariable("race") String race, @RequestParam("psw") String psw, HttpServletResponse response) {
 
         try {
-            if (psw.equals("123")){
+            if (psw.equals("123")) {
 
                 Map<String, Map<String, String>> agg = new HashMap<>();
                 List<Read> all = readDAO.findAll(race);
@@ -48,7 +48,7 @@ public class RankingExportResource {
                 for (Read r : all) {
 
                     Map<String, String> times = agg.get(r.getReadKey().getBib());
-                    if (times == null){
+                    if (times == null) {
                         times = new HashMap<>();
                     }
 
@@ -57,9 +57,9 @@ public class RankingExportResource {
                 }
 
                 StringBuffer buffer = new StringBuffer();
-                List<Control> controls = controlService.getControls(race);
+                List<Control> controls = controlDAO.findAll(race);
 
-                for(Map.Entry<String, Map<String, String>> e : agg.entrySet()){
+                for (Map.Entry<String, Map<String, String>> e : agg.entrySet()) {
 
                     Runner runner = runnerService.getRunner(race, e.getKey());
 
@@ -67,7 +67,7 @@ public class RankingExportResource {
                     buffer.append(",");
                     buffer.append(runner.getName());
                     buffer.append(",");
-                    for(Control c : controls){
+                    for (Control c : controls) {
                         buffer.append(e.getValue().getOrDefault(c.getId(), "-"));
                         buffer.append(",");
                     }
@@ -84,7 +84,7 @@ public class RankingExportResource {
             } else {
                 log.log(Level.SEVERE, "Psw incorrect");
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             log.log(Level.SEVERE, "Error downloading csv", e);
         }
 

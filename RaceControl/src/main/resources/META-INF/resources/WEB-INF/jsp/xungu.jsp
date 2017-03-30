@@ -21,22 +21,35 @@
             <br><br>
         </div>
     </div>
-
+NO SORTIDA
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <table border="1">
                 <thead>
                     <tr>
                         <td><b>Dorsal</b></td>
-                        <td><b>Corredor</b></td>
-                        <td><b>Emerg&egrave;ncia</b></td>
                     </tr>
                 </thead>
-                <c:forEach items="${reads}" var="r">
+                <c:forEach items="${nosor}" var="r">
                     <tr>
-                        <td>${r.bib}</td>
-                        <td>${r.surname1} ${r.surname2}, ${r.name}</td>
-                        <td>${telfemer}</td>
+                        <td>${r.readKey.bib}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
+    </div>
+READ AFTER OUT
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <table border="1">
+                <thead>
+                <tr>
+                    <td><b>Dorsal</b></td>
+                </tr>
+                </thead>
+                <c:forEach items="${out}" var="r">
+                    <tr>
+                        <td>${r.readKey.bib}</td>
                     </tr>
                 </c:forEach>
             </table>
