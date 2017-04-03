@@ -78,10 +78,11 @@
                 if (
                         ($(row).data('control') < r.controlWeight)
                         ||
-                        ( ($(row).data('control') == r.controlWeight) && $(row).data('time') < r.timeMs )
+                        ( ($(row).data('control') == r.controlWeight) && $(row).data('time') > r.timeMs )
                 ) {
                     tr.insertBefore(row) ;
                     added = true;
+                    return false;
                 }
             });
 

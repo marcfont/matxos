@@ -24,11 +24,10 @@ public class BibAssign {
 
             if(r.getBib() == null){
                 r.setBib(String.valueOf(startBib));
-                startBib++;
             }
 
             registrationDAO.save(r);
-
+            startBib++;
         }
         System.out.println("Bibs assigned. Last bib: " + startBib);
     }
