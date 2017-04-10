@@ -53,6 +53,10 @@
             filtered = true;
         }
 
+        if (!filtered  && r.race.toUpperCase() != "${race}".toUpperCase()){
+            filtered = true;
+        }
+
         if (!filtered && genderFil.length != 0 && r.gender.toUpperCase() != genderFil.toUpperCase()){
             filtered = true;
         }

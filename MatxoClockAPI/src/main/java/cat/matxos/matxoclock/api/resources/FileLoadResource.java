@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
-import java.time.Clock;
 import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.logging.Level;
@@ -32,9 +30,9 @@ public class FileLoadResource {
     @Value("${validation.key}")
     private String psw;
 
-    private SimpleDateFormat df= new SimpleDateFormat("HH:mm:ss");
+    private SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
 
-    public FileLoadResource(){
+    public FileLoadResource() {
         df.setTimeZone(TimeZone.getTimeZone(ZoneId.of("UTC")));
     }
 
@@ -51,20 +49,23 @@ public class FileLoadResource {
                 String content = new String(file.getBytes());
                 String[] reads = content.split("\n");
                 for (String read : reads) {
+                    try {
+                        String[] data = read.trim().split("/");
 
-                    String[] data = read.trim().split("/");
+                        String humanHour = data[2].trim();
+                        String[] parts = humanHour.split(":");
+                        Date d1 = new Date();
+                        d1.setHours(Integer.valueOf(parts[0]));
+                        d1.setMinutes(Integer.valueOf(parts[1]));
+                        d1.setSeconds(Integer.valueOf(parts[2]));
 
-                    String humanHour = data[2].trim();
-                    String[] parts = humanHour.split(":");
-                    Date d1 = new Date();
-                    d1.setHours(Integer.valueOf(parts[0]));
-                    d1.setMinutes(Integer.valueOf(parts[1]));
-                    d1.setSeconds(Integer.valueOf(parts[2]));
-
-                    Read r = new Read(race, control, data[1].trim(), String.valueOf(d1.getTime()));
-                    readDAO.save(r);
+                        Read r = new Read(race, control, data[1].trim(), String.valueOf(d1.getTime()));
+                        readDAO.save(r);
+                    } catch (Exception e) {
+                        log.log(Level.SEVERE, "Error insert read", e);
+                    }
                 }
-            }else {
+            } else {
                 log.log(Level.INFO, "Error psw");
 
             }
@@ -77,7 +78,7 @@ public class FileLoadResource {
     @GetMapping("/api/race/{race}/control/{control}/upload")
     public String general(@PathVariable("race") String race,
                           @PathVariable("control") String control,
-                          Model model){
+                          Model model) {
 
         model.addAttribute("race", race);
         model.addAttribute("control", control);

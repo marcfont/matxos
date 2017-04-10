@@ -47,6 +47,10 @@ public class Boot  {
                 String pathOutput = args[2];
                 FEECChecker checker = context.getBean(FEECChecker.class);
                 checker.check(race, pathOutput);
+            } else if (args[0].equals("route")) {
+                race = args[1];
+                RouteChecker routeChecker = context.getBean(RouteChecker.class);
+                routeChecker.check(race);
             } else {
                 System.err.println("NO task");
             }

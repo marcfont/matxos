@@ -16,6 +16,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,6 +74,10 @@ public class MatxoClockResource {
     public String read(@PathVariable("race") String race, @RequestBody ReadForm read) {
         log.log(Level.INFO, "new read " + read);
         try {
+            //FIXME
+            if (Integer.valueOf(read.getBib()) > 1000) {
+                read.setRace("TASTMAT17");
+            }
 
             if (!validationEnabled || (validationEnabled && isValid(read))) {
                 readDAO.save(convert(read));
@@ -121,7 +127,8 @@ public class MatxoClockResource {
 
             boolean puigsacalm = false;
             boolean cabrera = false;
-            List<Read> reads = readDAO.findByBib(bib, race);
+            Read filter = new Read(race, null, bib, null);
+            List<Read> reads = readDAO.findAll(Example.of(filter), new Sort(Sort.Direction.ASC, "time"));
             for (Read r : reads) {
 
                 if ("CAB".equalsIgnoreCase(r.getReadKey().getControl())

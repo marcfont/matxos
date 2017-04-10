@@ -88,6 +88,7 @@ public class HomeResource {
             c.set(Calendar.SECOND, 0);
             long day = c.getTimeInMillis();
 
+            dateFormat.setTimeZone(TimeZone.getTimeZone("CEST"));
             Date d = dateFormat.parse(time);
 
             Read newread = new Read(race, control, bib, String.valueOf(day + d.getTime()));
@@ -131,6 +132,8 @@ public class HomeResource {
             in.removeAll(outs);
 
             model.addAttribute("reads", in);
+            model.addAttribute("howmany", in.size());
+
 
             fillModel(model, race);
             return "pending";

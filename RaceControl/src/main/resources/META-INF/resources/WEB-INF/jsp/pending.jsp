@@ -21,7 +21,12 @@
             <br><br>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            Falten: ${howmany}
+            <br><br>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <table border="1">
@@ -36,7 +41,7 @@
                     <tr>
                         <td>${r.bib}</td>
                         <td>${r.surname1} ${r.surname2}, ${r.name}</td>
-                        <td>${telfemer}</td>
+                        <td>${r.telfemer}</td>
                     </tr>
                 </c:forEach>
             </table>
