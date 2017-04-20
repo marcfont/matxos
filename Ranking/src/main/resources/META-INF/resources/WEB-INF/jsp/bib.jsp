@@ -50,7 +50,7 @@
             ${title}<br>
             <b>${runner}</b><br>
             Dorsal: <b>${bib}</b><br>
-            Ruta prevista: ${route}
+            Itinerari: ${route}
         </div>
         <div class="pull-right" style="font-size: x-large; padding: 10px;"><a style="color: white" href="/ranking/race/${race}/ranking">Torna Ranking</a></div>
     </div>

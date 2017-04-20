@@ -141,7 +141,7 @@
                     <th><b>Dorsal</b></th>
                     <th><b>Cognoms, Nom</b></th>
                     <th><b>Temps</b></th>
-                    <th><b>Ruta prevista</b></th>
+                    <th><b>Itinerari</b></th>
                 </thead>
                 <tbody id="ranking-body">
                     <c:forEach items="${rankings}" var="r">
