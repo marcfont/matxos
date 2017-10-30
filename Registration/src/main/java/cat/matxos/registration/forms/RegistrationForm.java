@@ -68,7 +68,7 @@ public class RegistrationForm {
     @Size(min=5, max=100)
     private String email;
 
-    private String waiting;
+    private Boolean solidari = false;
 
     public String getEmail() {
         return email;
@@ -198,12 +198,12 @@ public class RegistrationForm {
         this.race = race;
     }
 
-    public String getWaiting() {
-        return waiting;
+    public Boolean getSolidari() {
+        return solidari;
     }
 
-    public void setWaiting(String waiting) {
-        this.waiting = waiting;
+    public void setSolidari(Boolean solidari) {
+        this.solidari = solidari;
     }
 
     @Override
@@ -225,7 +225,7 @@ public class RegistrationForm {
                 ", gender='" + gender + '\'' +
                 ", size='" + size + '\'' +
                 ", email='" + email + '\'' +
-                ", waiting='" + waiting + '\'' +
+                ", solidari=" + solidari +
                 '}';
     }
 }

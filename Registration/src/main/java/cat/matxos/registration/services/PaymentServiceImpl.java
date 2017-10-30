@@ -75,6 +75,13 @@ public class PaymentServiceImpl implements PaymentService {
         String typePrice = registration.getFeec() == null || registration.getFeec().isEmpty() ? "normal" : "federated";
         double price = Double.valueOf(env.getProperty(registration.getRace() + ".race.price." + typePrice));
 
+
+        double solidari = 0;
+        if (registration.isSolidari()) {
+            solidari = Double.valueOf(env.getProperty(registration.getRace() + ".solidari.price"));
+        }
+        price+=solidari;
+
         PaymentOrder order = new PaymentOrder();
         order.setAmount(price);
         order.setStatus("IN_PAYMENT");

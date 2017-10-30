@@ -14,8 +14,6 @@ public interface RegistrationDAO extends JpaRepository<Registration, Long> {
 
     List<Registration> findByRaceAndIsCompleted(String race, boolean complete);
 
-    List<Registration> findByRaceAndIsWaitingIsTrueAndIsCompletedIsFalse(String race);
-
     Registration findByRaceAndPaymentId(String race, String paymentId);
 
     @Query(value = "SELECT count(*) FROM registration WHERE size = ?1 AND gender = ?2 AND race=?3 AND is_completed=1", nativeQuery = true)

@@ -73,8 +73,6 @@
                     </select>
                 </div>
 
-                <input type="hidden" name="waiting" value="${waiting}">
-
                 <div class="form-group">
                     <label for="name">Nom*</label>
                     <input type="text" name="name" class="form-control" id="name" value="${registration.name}" placeholder="Nom">
@@ -153,6 +151,20 @@
                     <input type="text" class="form-control" id="telfemer" name="telfemer" value="${registration.telfemer}" placeholder="Telf emerg&egrave;ncia">
                     <c:if test="${errors.hasFieldErrors('telfemer')}"><span style="color: red;">Nom i Telf. cas emer&egrave;ngcia inv&agrave;lid</span></c:if>
                 </div>
+                 <c:choose>
+                    <c:when test="${solidari}">
+                        <div class="form-group">
+                            <label>Dorsal Solidari</label><br>
+                            <label class="checkbox-inline"><input id="solidari"  type="checkbox" name="solidari"
+                            <c:choose>
+                                <c:when test="${registration.solidari or registration == null}">
+                                    checked
+                                 </c:when>
+                            </c:choose>
+                            >S&iacute;, vull col.laborar!</label>
+                        </div>
+                    </c:when>
+                </c:choose>
                 <button type="submit" class="btn btn-primary btn-lg btn-block">Inscriure</button>
             </form>
         </div>

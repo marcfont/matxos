@@ -54,9 +54,7 @@ public class Registration {
 
     private boolean isCompleted = false;
 
-    private Boolean isWaiting;
-
-    private Boolean isApproved;
+    private boolean isSolidari = false;
 
     @Column(name = "payment_id")
     private String paymentId;
@@ -249,19 +247,11 @@ public class Registration {
         this.isCompleted = isCompleted;
     }
 
-    public Boolean getIsWaiting() {
-        return isWaiting;
+    public boolean isSolidari() {
+        return isSolidari;
     }
 
-    public void setIsWaiting(Boolean isWaiting) {
-        this.isWaiting = isWaiting;
-    }
-
-    public Boolean getIsApproved() {
-        return isApproved;
-    }
-
-    public void setIsApproved(Boolean isApproved) {
-        this.isApproved = isApproved;
+    public void setSolidari(boolean solidari) {
+        isSolidari = solidari;
     }
 }
