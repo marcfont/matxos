@@ -80,6 +80,7 @@ public class EmailServiceImpl implements EmailService {
 			message.setFrom(new InternetAddress(emailUser));
 
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			message.addRecipient(Message.RecipientType.BCC, new InternetAddress(emailUser));
 			message.setSubject(subject, "UTF-8");
 			message.setContent(content, "text/html; charset=UTF-8");
 
