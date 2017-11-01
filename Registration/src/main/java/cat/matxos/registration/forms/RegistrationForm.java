@@ -63,6 +63,8 @@ public class RegistrationForm {
 
     private String size;
 
+    private Boolean acceptTerms;
+
     @Email
     @NotBlank
     @Size(min=5, max=100)
@@ -206,6 +208,14 @@ public class RegistrationForm {
         this.solidari = solidari;
     }
 
+    public Boolean getAcceptTerms() {
+        return acceptTerms;
+    }
+
+    public void setAcceptTerms(Boolean acceptTerms) {
+        this.acceptTerms = acceptTerms;
+    }
+
     @Override
     public String toString() {
         return "RegistrationForm{" +
@@ -224,6 +234,7 @@ public class RegistrationForm {
                 ", telfemer='" + telfemer + '\'' +
                 ", gender='" + gender + '\'' +
                 ", size='" + size + '\'' +
+                ", acceptTerms=" + acceptTerms +
                 ", email='" + email + '\'' +
                 ", solidari=" + solidari +
                 '}';

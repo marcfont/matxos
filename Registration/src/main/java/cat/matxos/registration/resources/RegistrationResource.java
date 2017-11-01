@@ -65,6 +65,12 @@ public class RegistrationResource extends Resource {
 	@Value("${solidari.enabled}")
 	private boolean solidariEnabled;
 
+	@Value("${terms.enabled}")
+	private boolean termsEnabled;
+
+	@Value("${terms.url}")
+	private String termsUrl;
+
 	@GetMapping("registration/race/{race}/registrations")
 	public String registrations(@PathVariable("race") String race, Model model) {
 
@@ -181,6 +187,11 @@ public class RegistrationResource extends Resource {
 				return "registration";
 			}
 
+			if (termsEnabled && registration.getAcceptTerms() == null) {
+				prepareError(registration, model, bindingResult, "acceptTerms");
+				return "registration";
+			}
+
 			//store
 			formatFields(registration);
 
@@ -263,7 +274,10 @@ public class RegistrationResource extends Resource {
 		model.addAttribute("sizesF", tShirtSizeService.getSizeAvailable(race, false));
 		model.addAttribute("solidari", solidariEnabled);
 		model.addAttribute("race", race);
+		model.addAttribute("terms", termsEnabled);
+		model.addAttribute("termsUrl", termsUrl);
 	}
+
 
 	private Registration convert(RegistrationForm form) {
 		Registration registration = new Registration();

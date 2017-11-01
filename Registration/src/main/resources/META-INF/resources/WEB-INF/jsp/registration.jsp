@@ -90,8 +90,8 @@
                 </div>
                 <div class="form-group">
                     <label>Sexe*</label><br>
-                    <label class="checkbox-inline"><input id="male"  type="radio" name="gender" value="H" >Home</label>
-                    <label class="checkbox-inline"><input id="female" type="radio" name="gender" value="D">Dona</label><br>
+                    <label class="checkbox-inline"><input id="male"  type="radio" name="gender" value="H"  <c:if test="${registration.gender == 'H'}"> checked</c:if> >Home</label>
+                    <label class="checkbox-inline"><input id="female" type="radio" name="gender" value="D"   <c:if test="${registration.gender == 'D'}"> checked</c:if> >Dona</label><br>
                     <c:if test="${errors.hasFieldErrors('gender')}"><span style="color: red;">Sexe inv&agrave;lid</span></c:if>
                 </div>
                 <div class="form-group">
@@ -108,10 +108,10 @@
                     <label for="size">Talla samarreta</label>
                     <span style="font-size: x-small"> ( ** Ja tenim les samarretes comprades. Nom&eacute;s es poden encarregar talles que encara tenen disponibilitat)</span>
                     <select id="size" name="size" class="form-control">
-                        <option class="tshirt-size" value="S">S</option>
-                        <option class="tshirt-size" value="M">M</option>
-                        <option class="tshirt-size" value="L">L</option>
-                        <option class="tshirt-size" value="XL">XL</option>
+                        <option class="tshirt-size" value="S"  <c:if test="${registration.size == 'S'}"> selected</c:if> >S</option>
+                        <option class="tshirt-size" value="M"  <c:if test="${registration.size == 'M'}"> selected</c:if> >M</option>
+                        <option class="tshirt-size" value="L"  <c:if test="${registration.size == 'L'}"> selected</c:if> >L</option>
+                        <option class="tshirt-size" value="XL" <c:if test="${registration.size == 'XL'}"> selected</c:if> >XL</option>
                     </select>
                 </div>
 
@@ -165,6 +165,18 @@
                         </div>
                     </c:when>
                 </c:choose>
+<br>
+<br>
+                <c:choose>
+                    <c:when test="${terms}">
+                        <div class="form-group">
+                            <label>Condicions - <a href="${termsUrl}" target="_blank">(Llegir condicions)</a></label><br>
+                            <label class="checkbox-inline"><input id="acceptTerms"  type="checkbox" name="acceptTerms">S&iacute;, les accepto</label>
+                             <c:if test="${errors.hasFieldErrors('acceptTerms')}"><span style="color: red;">Cal acceptar les condicions per continuar</span></c:if>
+                        </div>
+                    </c:when>
+                </c:choose>
+
                 <button type="submit" class="btn btn-primary btn-lg btn-block">Inscriure</button>
             </form>
         </div>
