@@ -126,7 +126,7 @@
                     <c:if test="${errors.hasFieldErrors('dni')}"><span style="color: red;">DNI/NIE inv&agrave;lid</span></c:if>
                 </div>
                 <div class="form-group">
-                    <label for="telf">Telf*</label>
+                    <label for="telf">Tel&egrave;fon*</label>
                     <span style="font-size: x-small"> ( ** Faciliteu-nos el m&ograve;bil que portareu el dia de la cursa aix&iacute; cas d'incid&egrave;ncia podrem contactar amb vosaltres)</span>
                     <input type="text" class="form-control" id="telf" name="telf" value="${registration.telf}" placeholder="Telf">
                     <c:if test="${errors.hasFieldErrors('telf')}"><span style="color: red;">Telf inv&agrave;lid</span></c:if>
@@ -147,9 +147,14 @@
                     <c:if test="${errors.hasFieldErrors('feec')}"><span style="color: red;">N&uacute;mero federat inv&agrave;lid</span></c:if>
                 </div>
                 <div class="form-group">
-                    <label for="telfemer">Nom i Telf. cas emer&egrave;ngcia*</label>
+                    <label for="nameemer">Nom contacte en cas emer&egrave;ngcia*</label>
+                    <input type="text" class="form-control" id="nameemer" name="nameemer" value="${registration.nameemer}" placeholder="Nom emerg&egrave;ncia">
+                    <c:if test="${errors.hasFieldErrors('nameemer')}"><span style="color: red;">Telf. cas emer&egrave;ngcia inv&agrave;lid</span></c:if>
+                </div>
+                <div class="form-group">
+                    <label for="telfemer">Tel&egrave;fon en cas emer&egrave;ngcia*</label>
                     <input type="text" class="form-control" id="telfemer" name="telfemer" value="${registration.telfemer}" placeholder="Telf emerg&egrave;ncia">
-                    <c:if test="${errors.hasFieldErrors('telfemer')}"><span style="color: red;">Nom i Telf. cas emer&egrave;ngcia inv&agrave;lid</span></c:if>
+                    <c:if test="${errors.hasFieldErrors('telfemer')}"><span style="color: red;">Telf. cas emer&egrave;ngcia inv&agrave;lid o igual al de contacte</span></c:if>
                 </div>
                  <c:choose>
                     <c:when test="${solidari}">
@@ -170,8 +175,8 @@
                 <c:choose>
                     <c:when test="${terms}">
                         <div class="form-group">
-                            <label>Condicions - <a href="${termsUrl}" target="_blank">(Llegir condicions)</a></label><br>
-                            <label class="checkbox-inline"><input id="acceptTerms"  type="checkbox" name="acceptTerms">S&iacute;, les accepto</label>
+                            <label>Reglament i pol&iacute;tica de protecci&oacute; de dades - <a href="${termsUrl}" target="_blank">(Llegir document)</a></label><br>
+                            <label class="checkbox-inline"><input id="acceptTerms"  type="checkbox" name="acceptTerms">S&iacute;, accepto el reglament i la pol&iacute;tica de protecci&oacute; de dades</label>
                              <c:if test="${errors.hasFieldErrors('acceptTerms')}"><span style="color: red;">Cal acceptar les condicions per continuar</span></c:if>
                         </div>
                     </c:when>

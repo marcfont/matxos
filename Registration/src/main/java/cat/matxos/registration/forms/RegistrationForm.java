@@ -54,8 +54,12 @@ public class RegistrationForm {
     private String feec;
 
     @NotBlank
-    @Size(min=10, max=100)
+    @Size( min=8, max=15)
     private String telfemer;
+
+    @NotBlank
+    @Size(min=1, max=100)
+    private String nameemer;
 
     @NotBlank
     @Size(min=1, max=1)
@@ -216,6 +220,14 @@ public class RegistrationForm {
         this.acceptTerms = acceptTerms;
     }
 
+    public String getNameemer() {
+        return nameemer;
+    }
+
+    public void setNameemer(String nameemer) {
+        this.nameemer = nameemer;
+    }
+
     @Override
     public String toString() {
         return "RegistrationForm{" +
@@ -232,6 +244,7 @@ public class RegistrationForm {
                 ", club='" + club + '\'' +
                 ", feec='" + feec + '\'' +
                 ", telfemer='" + telfemer + '\'' +
+                ", nameemer='" + nameemer + '\'' +
                 ", gender='" + gender + '\'' +
                 ", size='" + size + '\'' +
                 ", acceptTerms=" + acceptTerms +

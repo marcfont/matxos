@@ -78,7 +78,7 @@
                 </div>
                 <div class="form-group">
                     <label>Nom i Telf. cas emer&egrave;ngcia:</label>
-                    <span>${registration.telfemer}</span>
+                    <span>${registration.nameemer} - ${registration.telfemer}</span>
                 </div>
                 <c:choose>
                     <c:when test="${solidari}">

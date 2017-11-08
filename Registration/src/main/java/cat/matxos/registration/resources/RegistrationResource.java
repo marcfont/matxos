@@ -181,6 +181,12 @@ public class RegistrationResource extends Resource {
 				return "registration";
 			}
 
+			//validate phone
+			if (!phoneService.isValid(registration.getTelfemer())) {
+				prepareError(registration, model, bindingResult, "telfemer");
+				return "registration";
+			}
+
 			//min age
 			if (!minAge(race, registration.getBirthday())) {
 				prepareError(registration, model, bindingResult, "birthday");
@@ -192,10 +198,15 @@ public class RegistrationResource extends Resource {
 				return "registration";
 			}
 
+			if(registration.getTelf().trim().equals(registration.getTelfemer().trim())){
+				prepareError(registration, model, bindingResult, "telfemer");
+				return "registration";
+			}
+
 			//store
 			formatFields(registration);
 
-			Registration newReg = (Registration) registrationDAO.save(convert(registration));
+			Registration newReg = registrationDAO.save(convert(registration));
 
 			model.addAttribute("id", newReg.getId());
 			model.addAttribute("title", getProperty(race + ".race.name"));
@@ -295,7 +306,7 @@ public class RegistrationResource extends Resource {
 		registration.setSurname1(form.getSurname1());
 		registration.setSurname2(form.getSurname2());
 		registration.setTelf(form.getTelf());
-		registration.setTelfemer(form.getTelfemer());
+		registration.setTelfemer(form.getNameemer() + " - " + form.getTelfemer());
 		registration.setTown(form.getTown());
 		registration.setSolidari(form.getSolidari());
 		return registration;
