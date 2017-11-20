@@ -3,6 +3,7 @@
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="/logo.jpg" />
     <title>Inscripcions - ${title} </title>
     <jsp:include page="bootstrap.jsp"/>
 </head>

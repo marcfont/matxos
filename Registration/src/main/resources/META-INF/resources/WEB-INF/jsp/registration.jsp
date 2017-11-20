@@ -3,13 +3,16 @@
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="/logo.jpg" />
     <title>Inscripcions - ${title} </title>
     <jsp:include page="bootstrap.jsp"/>
 </head>
 <body>
 <script>
 
-    if ("${race}" === "MATXOS17" ) {
+
+
+    if ("${race}" === "MATXOS18" ) {
         var select = $('#size');
         $(".tshirt-size").remove();
         var sizesMale = {
@@ -24,29 +27,37 @@
             </c:forEach>
         };
 
-        $(document).ready(function () {
+         function onGenderChange() {
             $(".tshirt-size").remove();
 
-            $("input[name=gender]:radio").change(function () {
-
-                $(".tshirt-size").remove();
-
                 var select = $('#size');
-
-                if($(this).val() === "D") {
+                var gender = $('input[name=gender]:checked').val();
+                if(gender === "D") {
                    //female
                    $.each( sizesFemale, function( key, value ) {
-                       var option = $('<option class="tshirt-size" value="' + key +'">' + key +'</option>');
-                       select.append(option);
+                        if (value > 0) {
+                           var option = $('<option class="tshirt-size" value="' + key +'">' + key +'</option>');
+                           select.append(option);
+                        }
                    });
                } else {
                   //male
                     $.each( sizesMale, function( key, value ) {
-                        var option = $('<option class="tshirt-size" value="' + key +'">' + key +'</option>');
-                        select.append(option);
+                        if (value > 0) {
+                            var option = $('<option class="tshirt-size" value="' + key +'">' + key +'</option>');
+                            select.append(option);
+                        }
                     });
                }
-            })
+
+         };
+
+        $(document).ready(function () {
+            $(".tshirt-size").remove();
+
+            $("input[name=gender]:radio").change(onGenderChange);
+
+            onGenderChange();
         });
 
     }
@@ -54,9 +65,13 @@
 
 <div class="container-fluid">
     <div class="row" style="margin-bottom: 40px;">
+
         <div class="col-md-12" style="background-color: #FF5640; font-size: xx-large; color: azure; padding: 6%;">
             ${title}
         </div>
+ <div class="pull-right">Powered by <a href="https://www.datumize.com" target="_blank">Datumize</a></div>
+                </div>
+
     </div>
 
     <div class="row">
@@ -108,11 +123,13 @@
                     <label for="size">Talla samarreta</label>
                     <span style="font-size: x-small"> ( ** Ja tenim les samarretes comprades. Nom&eacute;s es poden encarregar talles que encara tenen disponibilitat)</span>
                     <select id="size" name="size" class="form-control">
+                        <option class="tshirt-size" value="XS"  <c:if test="${registration.size == 'XS'}"> selected</c:if> >XS</option>
                         <option class="tshirt-size" value="S"  <c:if test="${registration.size == 'S'}"> selected</c:if> >S</option>
                         <option class="tshirt-size" value="M"  <c:if test="${registration.size == 'M'}"> selected</c:if> >M</option>
                         <option class="tshirt-size" value="L"  <c:if test="${registration.size == 'L'}"> selected</c:if> >L</option>
                         <option class="tshirt-size" value="XL" <c:if test="${registration.size == 'XL'}"> selected</c:if> >XL</option>
                     </select>
+                     <c:if test="${errors.hasFieldErrors('size')}"><span style="color: red;">Talla no disponible</span></c:if>
                 </div>
 
                 <div class="form-group">

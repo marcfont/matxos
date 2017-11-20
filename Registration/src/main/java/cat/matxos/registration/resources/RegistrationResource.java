@@ -203,6 +203,12 @@ public class RegistrationResource extends Resource {
 				return "registration";
 			}
 
+			if (!validateSizeAvailable(race, registration.getSize(), registration.getGender().equals("H"))){
+				prepareError(registration, model, bindingResult, "size");
+				return "registration";
+			}
+
+
 			//store
 			formatFields(registration);
 
@@ -355,6 +361,10 @@ public class RegistrationResource extends Resource {
 		registration.setBibname(StringUtils.capitalize(registration.getBibname()));
 
 		registration.setDni(registration.getDni().toUpperCase());
+	}
+
+	private boolean validateSizeAvailable(String race, String size, boolean male){
+		return tShirtSizeService.getSizeAvailable(race, male).stream().filter(s -> s.getId().equals(size) && s.getStock() > 0).findFirst().isPresent();
 	}
 
 }
