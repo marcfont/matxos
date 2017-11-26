@@ -203,11 +203,6 @@ public class RegistrationResource extends Resource {
 				return "registration";
 			}
 
-			if (registration.getSize() == null || registration.getSize().isEmpty()) {
-				prepareError(registration, model, bindingResult, "size");
-				return "registration";
-			}
-
 			if (!validateSizeAvailable(race, registration.getSize(), registration.getGender().equals("H"))) {
 				prepareError(registration, model, bindingResult, "size");
 				return "registration";
@@ -370,12 +365,10 @@ public class RegistrationResource extends Resource {
 	}
 
 	private boolean validateSizeAvailable(String race, String size, boolean male) {
-		if (race.startsWith("MATXOS")) {
-			return tShirtSizeService.getSizeAvailable(race, male).stream().filter(s -> s.getId().equals(size) && s.getStock() > 0).findFirst().isPresent();
-		} else {
+		if (size == null || size.isEmpty()){
 			return true;
 		}
-
+		return tShirtSizeService.getSizeAvailable(race, male).stream().filter(s -> s.getId().equals(size) && s.getStock() > 0).findFirst().isPresent();
 	}
 
 }

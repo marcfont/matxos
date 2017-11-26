@@ -35,15 +35,10 @@ public class TShirtSizeServiceImpl implements TShirtSizeService {
             loadSizes();
         }
 
-        //TODO hardcode!!!
-        if(race.equalsIgnoreCase("MATXOS18")){
-            if (male){
-                return sizesM.stream().filter(s -> s.getStock() >= registrationDAO.countBySizeAndAndIsCompletedIsTrueAndGender(s.getId(), "H", race)).collect(Collectors.toList());
-            } else {
-                return sizesF.stream().filter(s -> s.getStock() >= registrationDAO.countBySizeAndAndIsCompletedIsTrueAndGender(s.getId(), "D", race)).collect(Collectors.toList());
-            }
+        if (male){
+            return sizesM.stream().filter(s -> s.getStock() >= registrationDAO.countBySizeAndAndIsCompletedIsTrueAndGender(s.getId(), "H", race)).collect(Collectors.toList());
         } else {
-            return sizesM;
+            return sizesF.stream().filter(s -> s.getStock() >= registrationDAO.countBySizeAndAndIsCompletedIsTrueAndGender(s.getId(), "D", race)).collect(Collectors.toList());
         }
     }
 /*

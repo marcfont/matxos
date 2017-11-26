@@ -9,60 +9,57 @@
 </head>
 <body>
 <script>
-
-    if ("${race}" === "MATXOS18" ) {
-        var select = $('#size');
-        $(".tshirt-size").remove();
-        var sizesMale = {
-                <c:forEach items="${sizesM}" var="t">
-                '${t.id}':${t.stock},
-                </c:forEach>
-        };
-
-        var sizesFemale = {
-            <c:forEach items="${sizesF}" var="t">
+    var select = $('#size');
+    $(".tshirt-size").remove();
+    var sizesMale = {
+            <c:forEach items="${sizesM}" var="t">
             '${t.id}':${t.stock},
             </c:forEach>
-        };
+    };
 
-        function onGenderChange() {
-            $(".tshirt-size").remove();
-            var select = $('#size');
-            var gender = $('input[name=gender]:checked').val();
-            if(gender === "D") {
-               //female
-               $.each( sizesFemale, function( key, value ) {
-                    if (value > 0) {
-                       var option = $('<option class="tshirt-size" value="' + key +'">' + key +'</option>');
-                       select.append(option);
-                    }
-               });
-           } else {
-              //male
-                $.each( sizesMale, function( key, value ) {
-                    if (value > 0) {
-                        var option = $('<option class="tshirt-size" value="' + key +'">' + key +'</option>');
-                        select.append(option);
-                    }
-                });
-           }
+    var sizesFemale = {
+        <c:forEach items="${sizesF}" var="t">
+        '${t.id}':${t.stock},
+        </c:forEach>
+    };
 
-         };
+    function onGenderChange() {
+        $(".tshirt-size").remove();
+        var select = $('#size');
+        var gender = $('input[name=gender]:checked').val();
+        if(gender === "D") {
+           //female
+           $.each( sizesFemale, function( key, value ) {
+                if (value > 0) {
+                   var option = $('<option class="tshirt-size" value="' + key +'">' + key +'</option>');
+                   select.append(option);
+                }
+           });
+       } else {
+          //male
+            $.each( sizesMale, function( key, value ) {
+                if (value > 0) {
+                    var option = $('<option class="tshirt-size" value="' + key +'">' + key +'</option>');
+                    select.append(option);
+                }
+            });
+       }
+     };
 
-        $(document).ready(function () {
-            var hasSize = $( "select#size option:checked" ).val();
+    $(document).ready(function () {
+        var hasSize = $( "select#size option:checked" ).val();
 
-            $(".tshirt-size").remove();
-            onGenderChange();
+        $(".tshirt-size").remove();
+        onGenderChange();
 
-            if( 0 != hasSize.length){
-              $("select#size").val(hasSize)
-            }
-        });
+        if( 0 != hasSize.length){
+          $("select#size").val(hasSize)
+        }
 
          $("input[name=gender]:radio").change(onGenderChange);
+    });
 
-    }
+
 </script>
 
 <div class="container-fluid">
