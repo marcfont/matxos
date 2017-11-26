@@ -10,8 +10,6 @@
 <body>
 <script>
 
-
-
     if ("${race}" === "MATXOS18" ) {
         var select = $('#size');
         $(".tshirt-size").remove();
@@ -27,38 +25,42 @@
             </c:forEach>
         };
 
-         function onGenderChange() {
+        function onGenderChange() {
             $(".tshirt-size").remove();
-
-                var select = $('#size');
-                var gender = $('input[name=gender]:checked').val();
-                if(gender === "D") {
-                   //female
-                   $.each( sizesFemale, function( key, value ) {
-                        if (value > 0) {
-                           var option = $('<option class="tshirt-size" value="' + key +'">' + key +'</option>');
-                           select.append(option);
-                        }
-                   });
-               } else {
-                  //male
-                    $.each( sizesMale, function( key, value ) {
-                        if (value > 0) {
-                            var option = $('<option class="tshirt-size" value="' + key +'">' + key +'</option>');
-                            select.append(option);
-                        }
-                    });
-               }
+            var select = $('#size');
+            var gender = $('input[name=gender]:checked').val();
+            if(gender === "D") {
+               //female
+               $.each( sizesFemale, function( key, value ) {
+                    if (value > 0) {
+                       var option = $('<option class="tshirt-size" value="' + key +'">' + key +'</option>');
+                       select.append(option);
+                    }
+               });
+           } else {
+              //male
+                $.each( sizesMale, function( key, value ) {
+                    if (value > 0) {
+                        var option = $('<option class="tshirt-size" value="' + key +'">' + key +'</option>');
+                        select.append(option);
+                    }
+                });
+           }
 
          };
 
         $(document).ready(function () {
+            var hasSize = $( "select#size option:checked" ).val();
+
             $(".tshirt-size").remove();
-
-            $("input[name=gender]:radio").change(onGenderChange);
-
             onGenderChange();
+
+            if( 0 != hasSize.length){
+              $("select#size").val(hasSize)
+            }
         });
+
+         $("input[name=gender]:radio").change(onGenderChange);
 
     }
 </script>
@@ -123,6 +125,7 @@
                     <label for="size">Talla samarreta</label>
                     <span style="font-size: x-small"> ( ** Ja tenim les samarretes comprades. Nom&eacute;s es poden encarregar talles que encara tenen disponibilitat)</span>
                     <select id="size" name="size" class="form-control">
+                        <option class="tshirt-size" value="">-</option>
                         <option class="tshirt-size" value="XS"  <c:if test="${registration.size == 'XS'}"> selected</c:if> >XS</option>
                         <option class="tshirt-size" value="S"  <c:if test="${registration.size == 'S'}"> selected</c:if> >S</option>
                         <option class="tshirt-size" value="M"  <c:if test="${registration.size == 'M'}"> selected</c:if> >M</option>
@@ -183,7 +186,7 @@
                                     checked
                                  </c:when>
                             </c:choose>
-                            >S&iacute;, vull col.laborar!</label>
+                            >S&iacute;, vull col.laborar! (+ ${solidariAmount}&euro; destinats &iacute;ntegrament a una entitat solid&agrave;ria)</label>
                         </div>
                     </c:when>
                 </c:choose>

@@ -198,12 +198,17 @@ public class RegistrationResource extends Resource {
 				return "registration";
 			}
 
-			if(registration.getTelf().trim().equals(registration.getTelfemer().trim())){
+			if (registration.getTelf().trim().equals(registration.getTelfemer().trim())) {
 				prepareError(registration, model, bindingResult, "telfemer");
 				return "registration";
 			}
 
-			if (!validateSizeAvailable(race, registration.getSize(), registration.getGender().equals("H"))){
+			if (registration.getSize() == null || registration.getSize().isEmpty()) {
+				prepareError(registration, model, bindingResult, "size");
+				return "registration";
+			}
+
+			if (!validateSizeAvailable(race, registration.getSize(), registration.getGender().equals("H"))) {
 				prepareError(registration, model, bindingResult, "size");
 				return "registration";
 			}
@@ -290,6 +295,7 @@ public class RegistrationResource extends Resource {
 		model.addAttribute("sizesM", tShirtSizeService.getSizeAvailable(race, true));
 		model.addAttribute("sizesF", tShirtSizeService.getSizeAvailable(race, false));
 		model.addAttribute("solidari", solidariEnabled);
+		model.addAttribute("solidariAmount", getProperty(race + ".solidari.price"));
 		model.addAttribute("race", race);
 		model.addAttribute("terms", termsEnabled);
 		model.addAttribute("termsUrl", termsUrl);
@@ -363,8 +369,13 @@ public class RegistrationResource extends Resource {
 		registration.setDni(registration.getDni().toUpperCase());
 	}
 
-	private boolean validateSizeAvailable(String race, String size, boolean male){
-		return tShirtSizeService.getSizeAvailable(race, male).stream().filter(s -> s.getId().equals(size) && s.getStock() > 0).findFirst().isPresent();
+	private boolean validateSizeAvailable(String race, String size, boolean male) {
+		if (race.startsWith("MATXOS")) {
+			return tShirtSizeService.getSizeAvailable(race, male).stream().filter(s -> s.getId().equals(size) && s.getStock() > 0).findFirst().isPresent();
+		} else {
+			return true;
+		}
+
 	}
 
 }
