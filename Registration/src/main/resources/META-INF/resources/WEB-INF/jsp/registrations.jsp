@@ -29,23 +29,14 @@
                     <th><b>Cognoms, Nom</b></th>
                     <th><b>Poblaci&oacute;</b></th>
                     <th><b>Club</b></th>
-                    <th><b>&Eacute;s solidari</b></th>
+
                 </thead>
                 <c:forEach items="${registrations}" var="r">
                     <tr>
                         <td>${r.surname1} ${r.surname2}, ${r.name}</td>
                         <td>${r.town}</td>
                         <td>${r.club}</td>
-                        <td>
-                             <c:choose>
-                                  <c:when test="${r.solidari}">
-                                         <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                                  </c:when>
-                                   <c:otherwise>
-                                          <span></span>
-                                  </c:otherwise>
-                             </c:choose>
-                        </td>
+
                     </tr>
                 </c:forEach>
             </table>
