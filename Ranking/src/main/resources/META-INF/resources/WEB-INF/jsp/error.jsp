@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Uppss</title>
+    <link rel="icon" href="/logo.jpg" />
     <jsp:include page="bootstrap.jsp"/>
 </head>
 <body>

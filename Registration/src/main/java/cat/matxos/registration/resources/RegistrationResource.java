@@ -366,7 +366,7 @@ public class RegistrationResource extends Resource {
 
 	private boolean validateSizeAvailable(String race, String size, boolean male) {
 		if (size == null || size.isEmpty()){
-			return true;
+			return false;
 		}
 		return tShirtSizeService.getSizeAvailable(race, male).stream().filter(s -> s.getId().equals(size) && s.getStock() > 0).findFirst().isPresent();
 	}

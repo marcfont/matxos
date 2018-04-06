@@ -1,5 +1,7 @@
 package cat.matxos.pojo;
 
+import java.util.Objects;
+
 public class ReadRunner  {
 
     private String race;
@@ -115,17 +117,22 @@ public class ReadRunner  {
 
         ReadRunner that = (ReadRunner) o;
 
+        return bib.equals(that.bib);
+
+/*
         if (race != null ? !race.equals(that.race) : that.race != null) return false;
         if (bib != null ? !bib.equals(that.bib) : that.bib != null) return false;
         return !(control != null ? !control.equals(that.control) : that.control != null);
-
+*/
     }
 
     @Override
     public int hashCode() {
-        int result = race != null ? race.hashCode() : 0;
+      /*int result = race != null ? race.hashCode() : 0;
         result = 31 * result + (bib != null ? bib.hashCode() : 0);
         result = 31 * result + (control != null ? control.hashCode() : 0);
         return result;
+        */
+      return bib.hashCode();
     }
 }

@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Ranking - ${controltitle} - ${title} </title>
+    <link rel="icon" href="/logo.jpg" />
     <jsp:include page="bootstrap.jsp"/>
 </head>
 <body>

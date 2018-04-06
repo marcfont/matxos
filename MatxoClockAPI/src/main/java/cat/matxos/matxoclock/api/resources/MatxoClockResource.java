@@ -76,7 +76,7 @@ public class MatxoClockResource {
         try {
             //FIXME
             if (Integer.valueOf(read.getBib()) > 1000) {
-                read.setRace("TASTMAT17");
+                read.setRace("TASTMAT18");
             }
 
             if (!validationEnabled || (validationEnabled && isValid(read))) {

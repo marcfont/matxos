@@ -23,4 +23,6 @@ public interface ControlDAO extends JpaRepository<Control, Control.ControlKey> {
     @Query(value = "SELECT * FROM control WHERE race = ?1 AND orderC < (SELECT orderC from control WHERE race=?1 AND id=?2) order by orderC asc", nativeQuery = true)
     List<Control> findBefore(String race, String control);
 
+    @Query(value = "SELECT * FROM control WHERE race = ?1 AND orderC <= (SELECT orderC from control WHERE race=?1 AND id=?2) order by orderC asc", nativeQuery = true)
+    List<Control> findBeforeOrEqual(String race, String control);
 }

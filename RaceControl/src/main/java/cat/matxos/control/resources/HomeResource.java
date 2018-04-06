@@ -80,7 +80,7 @@ public class HomeResource {
 
         try {
 
-            long startTime = Long.valueOf(env.getProperty("MATXOS17.start.ms"));
+            long startTime = Long.valueOf(env.getProperty("MATXOS18.start.ms"));
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(startTime);
             c.set(Calendar.HOUR, 0);
@@ -115,21 +115,28 @@ public class HomeResource {
             String[] controlsBeforeNames = controlsBefore.stream().map(c -> c.getId()).collect(Collectors.toList()).toArray(new String[controlsBefore.size()]);
             String[] controlsAfterNames = controlsAfter.stream().map(c -> c.getId()).collect(Collectors.toList()).toArray(new String[controlsAfter.size()]);
 
+            List<ReadRunner> toRemove = new ArrayList<>(4000);
             List<ReadRunner> in = new ArrayList<>();
-            List<ReadRunner> outs = new ArrayList<>();
+
             if (controlsBeforeNames.length != 0) {
                 in = convert(timesDao.getReadsIn(race, controlsBeforeNames));
-                outs = convert(timesDao.getOutsIn(race, controlsBeforeNames));
+                //fora els OUTS
+                toRemove.addAll(convert(timesDao.getOutsIn(race, controlsBeforeNames)));
 
             }
             List<ReadRunner> notIn = new ArrayList<>();
             if (controlsAfterNames.length != 0) {
-                notIn = convert(timesDao.getReadsIn(race, controlsAfterNames));
+                //fora els que han fitxat passat el control
+                toRemove.addAll(convert(timesDao.getReadsIn(race, controlsAfterNames)));
             }
 
+            //fora els que han fitxat aquest control
+            toRemove.addAll(convert(timesDao.getReadsIn(race, new String[]{control})));
+            //fora els que han abandonat aqui
+            toRemove.addAll(convert(timesDao.getOutsIn(race, new String[]{control})));
 
-            in.removeAll(notIn);
-            in.removeAll(outs);
+
+            in.removeAll(toRemove);
 
             model.addAttribute("reads", in);
             model.addAttribute("howmany", in.size());
@@ -179,4 +186,6 @@ public class HomeResource {
         }
         return  readRunners;
     }
+
+
 }
